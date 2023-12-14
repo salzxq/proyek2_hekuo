@@ -1,11 +1,16 @@
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+<ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color: green">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('admin')}}">
-      <div class="sidebar-brand-icon rotate-n-15">
-        <i class="fas fa-laugh-wink"></i>
+    <a  style="height: 10rem" class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('admin')}}">
+      <div class="sidebar-brand-icon ">
+        {{-- <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{Auth()->user()->name}}</span> --}}
+        @if(Auth()->user()->photo)
+          <img class="img-profile rounded-circle" src="{{Auth()->user()->photo}}">
+        @else
+          <img class="img-profile rounded-circle" src="{{asset('backend/img/avatar.png')}}">
+        @endif
       </div>
-      <div class="sidebar-brand-text mx-3">Admin</div>
+      <div class="sidebar-brand-text mx-3">{{Auth()->user()->name}}</div>
     </a>
 
     <!-- Divider -->
@@ -18,35 +23,14 @@
         <span>Dashboard</span></a>
     </li>
 
+    <li class="nav-item active">
+      <a class="nav-link" href="{{route('admin-profile')}}">
+        <i class="fas fa-user fa-sm fa-fw mr-2 "></i>
+        <span>Profile</span></a>
+    </li>
+
     <!-- Divider -->
-    <hr class="sidebar-divider">
-
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        Banner
-    </div>
-
-    <!-- Nav Item - Pages Collapse Menu -->
-    <!-- Nav Item - Charts -->
-    <li class="nav-item">
-        <a class="nav-link" href="{{route('file-manager')}}">
-            <i class="fas fa-fw fa-chart-area"></i>
-            <span>Media Manager</span></a>
-    </li>
-
-    <li class="nav-item">
-      <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-        <i class="fas fa-image"></i>
-        <span>Banners</span>
-      </a>
-      <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-        <div class="bg-white py-2 collapse-inner rounded">
-          <h6 class="collapse-header">Banner Options:</h6>
-          <a class="collapse-item" href="{{route('banner.index')}}">Banners</a>
-          <a class="collapse-item" href="{{route('banner.create')}}">Add Banners</a>
-        </div>
-      </div>
-    </li>
+    
     <!-- Divider -->
     <hr class="sidebar-divider">
         <!-- Heading -->
@@ -84,7 +68,7 @@
     </li>
 
     {{-- Brands --}}
-    <li class="nav-item">
+    {{-- <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#brandCollapse" aria-expanded="true" aria-controls="brandCollapse">
           <i class="fas fa-table"></i>
           <span>Brands</span>
@@ -96,7 +80,7 @@
             <a class="collapse-item" href="{{route('brand.create')}}">Add Brand</a>
           </div>
         </div>
-    </li>
+    </li> --}}
 
     {{-- Shipping --}}
     <li class="nav-item">
@@ -120,13 +104,13 @@
             <span>Orders</span>
         </a>
     </li>
-
+{{-- 
     <!-- Reviews -->
     <li class="nav-item">
         <a class="nav-link" href="{{route('review.index')}}">
             <i class="fas fa-comments"></i>
             <span>Reviews</span></a>
-    </li>
+    </li> --}}
     
 
     <!-- Divider -->
@@ -189,6 +173,35 @@
             <span>Comments</span>
         </a>
       </li>
+
+      <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Banner
+    </div>
+
+    <!-- Nav Item - Pages Collapse Menu -->
+    <!-- Nav Item - Charts -->
+    <li class="nav-item">
+        <a class="nav-link" href="{{route('file-manager')}}">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Media Manager</span></a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+        <i class="fas fa-image"></i>
+        <span>Banners</span>
+      </a>
+      <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+          <h6 class="collapse-header">Banner Options:</h6>
+          <a class="collapse-item" href="{{route('banner.index')}}">Banners</a>
+          <a class="collapse-item" href="{{route('banner.create')}}">Add Banners</a>
+        </div>
+      </div>
+    </li>
 
 
     <!-- Divider -->

@@ -289,7 +289,7 @@
                                             <div class="quickview-peragraph">
                                                 <p>{!! html_entity_decode($product->summary) !!}</p>
                                             </div>
-                                            @if($product->size)
+                                            {{-- @if($product->size)
                                                 <div class="size">
                                                     <h4>Size</h4>
                                                     <ul>
@@ -302,8 +302,8 @@
                                                         @endforeach
                                                     </ul>
                                                 </div>
-                                            @endif
-                                            <div class="size">
+                                            @endif --}}
+                                            {{-- <div class="size">
                                                 <div class="row">
                                                     <div class="col-lg-6 col-12">
                                                         <h5 class="title">Size</h5>
@@ -316,7 +316,7 @@
                                                                 <option>{{$size}}</option>
                                                             @endforeach
                                                         </select>
-                                                    </div>
+                                                    </div> --}}
                                                     {{-- <div class="col-lg-6 col-12">
                                                         <h5 class="title">Color</h5>
                                                         <select>
