@@ -55,7 +55,7 @@
                                 @endif
                                 <div class="content">
                                     <h3>{{$cat->title}}</h3>
-                                        <a href="{{route('product-cat',$cat->slug)}}">Discover Now</a>
+                                        <a href="{{route('product-cat',$cat->slug)}}">Temukan Sekarang</a>
                                 </div>
                             </div>
                         </div>
@@ -90,7 +90,7 @@
                                 @endphp
                                 @if($categories)
                                 <button class="btn" style="background:black"data-filter="*">
-                                    All Jenis Hewan
+                                    All Product
                                 </button>
                                     @foreach($categories as $key=>$cat)
 
@@ -134,7 +134,7 @@
                                                     <a title="Wishlist" href="{{route('add-to-wishlist',$product->slug)}}" ><i class=" ti-heart "></i><span>Add to Wishlist</span></a>
                                                 </div>
                                                 <div class="product-action-2">
-                                                    <a title="Add to cart" href="{{route('add-to-cart',$product->slug)}}">Add to cart</a>
+                                                    <a title="Add to cart" href="{{route('add-to-cart',$product->slug)}}">Masukkan Keranjang</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -182,8 +182,8 @@
                             <img src="{{$photo[0]}}" alt="{{$photo[0]}}">
                             <div class="content">
                                 <p>{{$data->cat_info['title']}}</p>
-                                <h3>{{$data->title}} <br>Up to<span> {{$data->discount}}%</span></h3>
-                                <a href="{{route('product-detail',$data->slug)}}">Shop Now</a>
+                                <h3>{{$data->title}} <br>Hingga<span> {{$data->discount}}%</span></h3>
+                                <a href="{{route('product-detail',$data->slug)}}">Belanja Sekarang</a>
                             </div>
                         </div>
                     </div>
@@ -261,7 +261,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="shop-section-title">
-                            <h1>Latest Items</h1>
+                            <h1>Hewan Terbaru</h1>
                         </div>
                     </div>
                 </div>
@@ -309,7 +309,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="section-title">
-                    <h2>From Our Blog</h2>
+                    <h2>Bentuk Blog Kita</h2>
                 </div>
             </div>
         </div>
@@ -323,7 +323,7 @@
                             <div class="content">
                                 <p class="date">{{$post->created_at->format('d M , Y. D')}}</p>
                                 <a href="{{route('blog.detail',$post->slug)}}" class="title">{{$post->title}}</a>
-                                <a href="{{route('blog.detail',$post->slug)}}" class="more-btn">Continue Reading</a>
+                                <a href="{{route('blog.detail',$post->slug)}}" class="more-btn">Lanjut Membaca</a>
                             </div>
                         </div>
                         <!-- End Single Blog  -->
@@ -344,8 +344,8 @@
                 <!-- Start Single Service -->
                 <div class="single-service">
                     <i class="ti-rocket"></i>
-                    <h4>Free shiping</h4>
-                    <p>Orders over $100</p>
+                    <h4>Bebas Biaya Kirim</h4>
+                    <p>Pesanan lebih dari 1.000.000</p>
                 </div>
                 <!-- End Single Service -->
             </div>
@@ -353,8 +353,8 @@
                 <!-- Start Single Service -->
                 <div class="single-service">
                     <i class="ti-reload"></i>
-                    <h4>Free Return</h4>
-                    <p>Within 30 days returns</p>
+                    <h4>Pengembalian Gratis</h4>
+                    <p>Dalam waktu 30 hari kembali</p>
                 </div>
                 <!-- End Single Service -->
             </div>
@@ -371,8 +371,8 @@
                 <!-- Start Single Service -->
                 <div class="single-service">
                     <i class="ti-tag"></i>
-                    <h4>Best Peice</h4>
-                    <p>Guaranteed price</p>
+                    <h4>Harga Terbaik</h4>
+                    <p>Harga Terjamin</p>
                 </div>
                 <!-- End Single Service -->
             </div>
@@ -434,13 +434,13 @@
                                                         @endif
                                                     @endfor
                                                 </div>
-                                                <a href="#"> ({{$rate_count}} customer review)</a>
+                                                <a href="#"> ({{$rate_count}} ulasan pelanggan)</a>
                                             </div>
                                             <div class="quickview-stock">
                                                 @if($product->stock >0)
                                                 <span><i class="fa fa-check-circle-o"></i> {{$product->stock}} in stock</span>
                                                 @else
-                                                <span><i class="fa fa-times-circle-o text-danger"></i> {{$product->stock}} out stock</span>
+                                                <span><i class="fa fa-times-circle-o text-danger"></i> {{$product->stock}} persediaan</span>
                                                 @endif
                                             </div>
                                         </div>
@@ -451,7 +451,7 @@
                                         <div class="quickview-peragraph">
                                             <p>{!! html_entity_decode($product->summary) !!}</p>
                                         </div>
-                                        {{-- @if($product->size)
+                                        @if($product->size)
                                             <div class="size">
                                                 <div class="row">
                                                     <div class="col-lg-6 col-12">
@@ -474,10 +474,10 @@
                                                             <option>black</option>
                                                             <option>pink</option>
                                                         </select>
-                                                    </div> 
+                                                    </div> --}}
                                                 </div>
                                             </div>
-                                        @endif --}}
+                                        @endif
                                         <form action="{{route('single-add-to-cart')}}" method="POST" class="mt-4">
                                             @csrf
                                             <div class="quantity">
@@ -499,7 +499,7 @@
                                                 <!--/ End Input Order -->
                                             </div>
                                             <div class="add-to-cart">
-                                                <button type="submit" class="btn">Add to cart</button>
+                                                <button type="submit" class="btn">Masukkan Keranjang</button>
                                                 <a href="{{route('add-to-wishlist',$product->slug)}}" class="btn min"><i class="ti-heart"></i></a>
                                             </div>
                                         </form>

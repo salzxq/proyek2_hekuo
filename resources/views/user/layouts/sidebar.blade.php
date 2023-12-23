@@ -1,15 +1,10 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a style="height: 120px" class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('user')}}">
-      <div class="sidebar-brand-icon ">
-          @if(Auth()->user()->photo)
-            <img class="img-profile rounded-circle" src="{{Auth()->user()->photo}}">
-          @else
-            <img class="img-profile rounded-circle" src="{{asset('backend/img/avatar.png')}}">
-          @endif
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('user')}}">
+      <div class="sidebar-brand-icon rotate-n-15">
+        <i class="fas fa-laugh-wink"></i>
       </div>
-      
       <div class="sidebar-brand-text mx-3">User</div>
     </a>
 

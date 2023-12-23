@@ -27,10 +27,10 @@
 					<table class="table shopping-summery">
 						<thead>
 							<tr class="main-hading">
-								<th>PRODUCT</th>
-								<th>NAME</th>
+								<th>PRODUK</th>
+								<th>NAMA</th>
 								<th class="text-center">TOTAL</th> 
-								<th class="text-center">ADD TO CART</th> 
+								<th class="text-center">MAASUKKAN KERANJANG</th> 
 								<th class="text-center"><i class="ti-trash remove-icon"></i></th>
 							</tr>
 						</thead>
@@ -47,7 +47,7 @@
 											<p class="product-des">{!!($wishlist['summary']) !!}</p>
 										</td>
 										<td class="total-amount" data-title="Total"><span>${{$wishlist['amount']}}</span></td>
-										<td><a href="{{route('add-to-cart',$wishlist->product['slug'])}}" class='btn text-white'>Add To Cart</a></td>
+										<td><a href="{{route('add-to-cart',$wishlist->product['slug'])}}" class='btn text-white'>Masukkan Keranjang</a></td>
 										<td class="action" data-title="Remove"><a href="{{route('wishlist-delete',$wishlist->id)}}"><i class="ti-trash remove-icon"></i></a></td>
 									</tr>
 								@endforeach
@@ -170,7 +170,7 @@
                                     <div class="quickview-peragraph">
                                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia iste laborum ad impedit pariatur esse optio tempora sint ullam autem deleniti nam in quos qui nemo ipsum numquam.</p>
                                     </div>
-									{{-- <div class="size">
+									<div class="size">
 										<div class="row">
 											<div class="col-lg-6 col-12">
 												<h5 class="title">Size</h5>
@@ -180,7 +180,7 @@
 													<option>l</option>
 													<option>xl</option>
 												</select>
-											</div> --}}
+											</div>
 											<div class="col-lg-6 col-12">
 												<h5 class="title">Color</h5>
 												<select>
@@ -214,7 +214,7 @@
 										<a href="#" class="btn min"><i class="ti-heart"></i></a>
 										<a href="#" class="btn min"><i class="fa fa-compress"></i></a>
 									</div>
-                                    {{-- <div class="default-social">
+                                    <div class="default-social">
 										<h4 class="share-now">Share:</h4>
                                         <ul>
                                             <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
@@ -222,7 +222,7 @@
                                             <li><a class="youtube" href="#"><i class="fa fa-pinterest-p"></i></a></li>
                                             <li><a class="dribbble" href="#"><i class="fa fa-google-plus"></i></a></li>
                                         </ul>
-                                    </div> --}}
+                                    </div>
                                 </div>
                             </div>
                         </div>

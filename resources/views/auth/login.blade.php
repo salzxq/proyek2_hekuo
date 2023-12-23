@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>E-SHOP || Login Page</title>
+  <title>Hekuo || Login Page</title>
   @include('backend.layouts.head')
 
 </head>
@@ -23,6 +23,7 @@
               <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
               <div class="col-lg-6">
                 <div class="p-5">
+                  <img src="/img/reguser.png" alt=" " class="mb-3">
                   <div class="text-center">
                     <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                   </div>

@@ -309,7 +309,7 @@
 												<div class="quickview-peragraph">
 													<p>{!! html_entity_decode($product->summary) !!}</p>
 												</div>
-												{{-- @if($product->size)
+												@if($product->size)
 													<div class="size">
 														<h4>Size</h4>
 														<ul>
@@ -322,7 +322,7 @@
 															@endforeach
 														</ul>
 													</div>
-												@endif --}}
+												@endif
 												<form action="{{route('single-add-to-cart')}}" method="POST">
 													@csrf 
 													<div class="quantity">

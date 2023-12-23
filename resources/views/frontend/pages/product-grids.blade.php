@@ -272,7 +272,7 @@
                                                             @endif
                                                         @endfor
                                                     </div>
-                                                    <a href="#"> ({{$rate_count}} customer review)</a>
+                                                    <a href="#"> ({{$rate_count}} ulasan pelanggan)</a>
                                                 </div>
                                                 <div class="quickview-stock">
                                                     @if($product->stock >0)
@@ -289,7 +289,7 @@
                                             <div class="quickview-peragraph">
                                                 <p>{!! html_entity_decode($product->summary) !!}</p>
                                             </div>
-                                            {{-- @if($product->size)
+                                            @if($product->size)
                                                 <div class="size">
                                                     <h4>Size</h4>
                                                     <ul>
@@ -302,8 +302,8 @@
                                                         @endforeach
                                                     </ul>
                                                 </div>
-                                            @endif --}}
-                                            {{-- <div class="size">
+                                            @endif
+                                            <div class="size">
                                                 <div class="row">
                                                     <div class="col-lg-6 col-12">
                                                         <h5 class="title">Size</h5>
@@ -316,7 +316,7 @@
                                                                 <option>{{$size}}</option>
                                                             @endforeach
                                                         </select>
-                                                    </div> --}}
+                                                    </div>
                                                     {{-- <div class="col-lg-6 col-12">
                                                         <h5 class="title">Color</h5>
                                                         <select>
@@ -349,7 +349,7 @@
                                                     <!--/ End Input Order -->
                                                 </div>
                                                 <div class="add-to-cart">
-                                                    <button type="submit" class="btn">Add to cart</button>
+                                                    <button type="submit" class="btn">Masukkan Keranjang</button>
                                                     <a href="{{route('add-to-wishlist',$product->slug)}}" class="btn min"><i class="ti-heart"></i></a>
                                                 </div>
                                             </form>
