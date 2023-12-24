@@ -35,7 +35,7 @@
     <hr class="sidebar-divider">
         <!-- Heading -->
         <div class="sidebar-heading">
-            Shop
+            Order
         </div>
 
     <!-- Categories -->
@@ -48,7 +48,7 @@
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Category Options:</h6>
             <a class="collapse-item" href="{{route('category.index')}}">Category</a>
-            <a class="collapse-item" href="{{route('category.create')}}">Add Category</a>
+            <a class="collapse-item" href="{{route('category.create')}}">Tambah Category</a>
           </div>
         </div>
     </li>
@@ -62,7 +62,7 @@
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Product Options:</h6>
             <a class="collapse-item" href="{{route('product.index')}}">Products</a>
-            <a class="collapse-item" href="{{route('product.create')}}">Add Product</a>
+            <a class="collapse-item" href="{{route('product.create')}}">Tambah Product</a>
           </div>
         </div>
     </li>
@@ -86,13 +86,13 @@
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#shippingCollapse" aria-expanded="true" aria-controls="shippingCollapse">
           <i class="fas fa-truck"></i>
-          <span>Shipping</span>
+          <span>Pengiriman</span>
         </a>
         <div id="shippingCollapse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Shipping Options:</h6>
-            <a class="collapse-item" href="{{route('shipping.index')}}">Shipping</a>
-            <a class="collapse-item" href="{{route('shipping.create')}}">Add Shipping</a>
+            <h6 class="collapse-header">Pilihan pengiriman:</h6>
+            <a class="collapse-item" href="{{route('shipping.index')}}">Pengiriman</a>
+            <a class="collapse-item" href="{{route('shipping.create')}}">Tambah Pengiriman</a>
           </div>
         </div>
     </li>
@@ -118,20 +118,20 @@
 
     <!-- Heading -->
     <div class="sidebar-heading">
-      Posts
+      Postingan
     </div>
 
     <!-- Posts -->
     <li class="nav-item">
       <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#postCollapse" aria-expanded="true" aria-controls="postCollapse">
         <i class="fas fa-fw fa-folder"></i>
-        <span>Posts</span>
+        <span>Postingan</span>
       </a>
       <div id="postCollapse" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
-          <h6 class="collapse-header">Post Options:</h6>
-          <a class="collapse-item" href="{{route('post.index')}}">Posts</a>
-          <a class="collapse-item" href="{{route('post.create')}}">Add Post</a>
+          <h6 class="collapse-header">Pilih Postingan:</h6>
+          <a class="collapse-item" href="{{route('post.index')}}">Postingan</a>
+          <a class="collapse-item" href="{{route('post.create')}}">Tambahkan Postingan</a>
         </div>
       </div>
     </li>
@@ -140,13 +140,13 @@
      <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#postCategoryCollapse" aria-expanded="true" aria-controls="postCategoryCollapse">
           <i class="fas fa-sitemap fa-folder"></i>
-          <span>Category</span>
+          <span>Kategori</span>
         </a>
         <div id="postCategoryCollapse" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Category Options:</h6>
-            <a class="collapse-item" href="{{route('post-category.index')}}">Category</a>
-            <a class="collapse-item" href="{{route('post-category.create')}}">Add Category</a>
+            <h6 class="collapse-header">Pilih kategori:</h6>
+            <a class="collapse-item" href="{{route('post-category.index')}}">Kategori</a>
+            <a class="collapse-item" href="{{route('post-category.create')}}">Tambah Kategori</a>
           </div>
         </div>
       </li>
@@ -208,7 +208,7 @@
     <hr class="sidebar-divider d-none d-md-block">
      <!-- Heading -->
     <div class="sidebar-heading">
-        General Settings
+        Settings
     </div>
     <li class="nav-item">
       <a class="nav-link" href="{{route('coupon.index')}}">

@@ -21,7 +21,7 @@
               <th>Author</th>
               <th>Post Title</th>
               <th>Message</th>
-              <th>Date</th>
+              <th>Tanggal</th>
               <th>Status</th>
               <th>Action</th>
             </tr>
@@ -32,7 +32,7 @@
               <th>Author</th>
               <th>Post Title</th>
               <th>Message</th>
-              <th>Date</th>
+              <th>Tanggal</th>
               <th>Status</th>
               <th>Action</th>
             </tr>

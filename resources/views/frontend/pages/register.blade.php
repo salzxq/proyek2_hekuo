@@ -26,7 +26,7 @@
             <div class="row"> 
                 <div class="col-lg-6 offset-lg-3 col-12">
                     <div class="login-form">
-                        <h2>Register</h2>
+                        <h2>Registrasi</h2>
                         {{-- <p>Please register in order to checkout more quickly</p> --}}
                         <img src="/img/reguser.png" alt=" " class="mb-3">
                         <!-- Form -->
@@ -35,7 +35,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <label>Your Name<span>*</span></label>
+                                        <label>Nama<span>*</span></label>
                                         <input type="text" name="name" placeholder="" required="required" value="{{old('name')}}">
                                         @error('name')
                                             <span class="text-danger">{{$message}}</span>
@@ -44,7 +44,7 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <label>Your Email<span>*</span></label>
+                                        <label>Email<span>*</span></label>
                                         <input type="text" name="email" placeholder="" required="required" value="{{old('email')}}">
                                         @error('email')
                                             <span class="text-danger">{{$message}}</span>
@@ -53,7 +53,7 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <label>Your Password<span>*</span></label>
+                                        <label>Password<span>*</span></label>
                                         <input type="password" name="password" placeholder="" required="required" value="{{old('password')}}">
                                         @error('password')
                                             <span class="text-danger">{{$message}}</span>
@@ -62,7 +62,7 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <label>Confirm Password<span>*</span></label>
+                                        <label>Konfirmasi Password<span>*</span></label>
                                         <input type="password" name="password_confirmation" placeholder="" required="required" value="{{old('password_confirmation')}}">
                                         @error('password_confirmation')
                                             <span class="text-danger">{{$message}}</span>

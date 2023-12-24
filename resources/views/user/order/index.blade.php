@@ -19,11 +19,11 @@
             <tr>
               <th>S.N.</th>
               <th>Order No.</th>
-              <th>Name</th>
+              <th>Nama</th>
               <th>Email</th>
               <th>Quantity</th>
               <th>Charge</th>
-              <th>Total Amount</th>
+              <th>Jumlah Total</th>
               <th>Status</th>
               <th>Action</th>
             </tr>
@@ -32,11 +32,11 @@
             <tr>
               <th>S.N.</th>
               <th>Order No.</th>
-              <th>Name</th>
+              <th>Nama</th>
               <th>Email</th>
               <th>Quantity</th>
               <th>Charge</th>
-              <th>Total Amount</th>
+              <th>Jumlah Total</th>
               <th>Status</th>
               <th>Action</th>
               </tr>
@@ -76,7 +76,7 @@
         </table>
         <span style="float:right">{{$orders->links()}}</span>
         @else
-          <h6 class="text-center">No orders found!!! Please order some products</h6>
+          <h6 class="text-center">Tidak ada pesanan yang ditemukan!!! Silakan memesan beberapa produk</h6>
         @endif
       </div>
     </div>

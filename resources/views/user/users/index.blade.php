@@ -18,7 +18,7 @@
           <thead>
             <tr>
               <th>S.N.</th>
-              <th>Name</th>
+              <th>Nama</th>
               <th>Email</th>
               <th>Photo</th>
               <th>Join Date</th>

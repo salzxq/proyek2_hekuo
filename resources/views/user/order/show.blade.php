@@ -4,7 +4,7 @@
 
 @section('main-content')
 <div class="card">
-<h5 class="card-header">Order       <a href="{{route('order.pdf',$order->id)}}" class=" btn btn-sm btn-primary shadow-sm float-right"><i class="fas fa-download fa-sm text-white-50"></i> Generate PDF</a>
+<h5 class="card-header">Order     <a href="{{route('order.pdf',$order->id)}}" class=" btn btn-sm btn-primary shadow-sm float-right"><i class="fas fa-download fa-sm text-white-50"></i> Generate PDF</a>
   </h5>
   <div class="card-body">
     @if($order)
@@ -13,11 +13,11 @@
         <tr>
             <th>S.N.</th>
             <th>Order No.</th>
-            <th>Name</th>
+            <th>Nama</th>
             <th>Email</th>
             <th>Quantity</th>
             <th>Charge</th>
-            <th>Total Amount</th>
+            <th>Jumlah Total</th>
             <th>Status</th>
             <th>Action</th>
         </tr>
@@ -62,11 +62,11 @@
               <h4 class="text-center pb-4">ORDER INFORMATION</h4>
               <table class="table">
                     <tr class="">
-                        <td>Order Number</td>
+                        <td>Nomor Order</td>
                         <td> : {{$order->order_number}}</td>
                     </tr>
                     <tr>
-                        <td>Order Date</td>
+                        <td>Tanggal Order</td>
                         <td> : {{$order->created_at->format('D d M, Y')}} at {{$order->created_at->format('g : i a')}} </td>
                     </tr>
                     <tr>
@@ -74,7 +74,7 @@
                         <td> : {{$order->quantity}}</td>
                     </tr>
                     <tr>
-                        <td>Order Status</td>
+                        <td>Status Order</td>
                         <td> : {{$order->status}}</td>
                     </tr>
                     <tr>
@@ -85,15 +85,15 @@
                         <td> :${{$order->shipping->price}}</td>
                     </tr>
                     <tr>
-                        <td>Total Amount</td>
+                        <td>Jumlah Total</td>
                         <td> : $ {{number_format($order->total_amount,2)}}</td>
                     </tr>
                     <tr>
-                      <td>Payment Method</td>
+                      <td>Metode Pembayaran</td>
                       <td> : @if($order->payment_method=='cod') Cash on Delivery @else Paypal @endif</td>
                     </tr>
                     <tr>
-                        <td>Payment Status</td>
+                        <td>Status Pembayaran</td>
                         <td> : {{$order->payment_status}}</td>
                     </tr>
               </table>
@@ -113,19 +113,19 @@
                         <td> : {{$order->email}}</td>
                     </tr>
                     <tr>
-                        <td>Phone No.</td>
+                        <td>No.Handphone.</td>
                         <td> : {{$order->phone}}</td>
                     </tr>
                     <tr>
-                        <td>Address</td>
+                        <td>Alamat</td>
                         <td> : {{$order->address1}}, {{$order->address2}}</td>
                     </tr>
                     <tr>
-                        <td>Country</td>
+                        <td>Negara</td>
                         <td> : {{$order->country}}</td>
                     </tr>
                     <tr>
-                        <td>Post Code</td>
+                        <td>Kode Post</td>
                         <td> : {{$order->post_code}}</td>
                     </tr>
               </table>

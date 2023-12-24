@@ -1,4 +1,5 @@
 * text=auto
+*.lock text eol=crlf
 *.css linguist-vendored
 *.scss linguist-vendored
 *.js linguist-vendored

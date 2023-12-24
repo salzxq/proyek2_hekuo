@@ -22,7 +22,7 @@
               <th>Product Title</th>
               <th>Review</th>
               <th>Rate</th>
-              <th>Date</th>
+              <th>Tanggal</th>
               <th>Status</th>
               <th>Action</th>
             </tr>
@@ -34,7 +34,7 @@
               <th>Product Title</th>
               <th>Review</th>
               <th>Rate</th>
-              <th>Date</th>
+              <th>Tanggal</th>
               <th>Status</th>
               <th>Action</th>
               </tr>
