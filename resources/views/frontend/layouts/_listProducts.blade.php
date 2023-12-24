@@ -21,9 +21,15 @@
                         </div>
                     </div>
                     <div class="product-content">
+<<<<<<< HEAD
                         <h3><a href="product-details.html">Koleksi Hewan</a></h3>
                         <div class="product-price">
                             <span>Rp 2.900.000</span>
+=======
+                        <h3><a href="product-details.html">Hewan Kurban Hot Collection</a></h3>
+                        <div class="product-price">
+                            <span>2.000.000</span>
+>>>>>>> 8c8d46a9d4dee813bbe256aedb35a6e93d0108a9
                         </div>
                     </div>
                 </div>

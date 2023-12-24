@@ -31,6 +31,7 @@
 								$settings=DB::table('settings')->get();
 							@endphp
 							<h3>Selamat datang di <span>Hekuo</span></h3>
+							<h3>Welcome To <span>Hekuo</span></h3>
 							<p>@foreach($settings as $data) {{$data->description}} @endforeach</p>
 							<div class="button">
 								<a href="{{route('blog')}}" class="btn">Blog kami</a>

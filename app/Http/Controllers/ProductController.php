@@ -50,14 +50,14 @@ class ProductController extends Controller
             'summary'=>'string|required',
             'description'=>'string|nullable',
             'photo'=>'string|required',
-            // 'size'=>'nullable',
+            'size'=>'nullable',
             'stock'=>"required|numeric",
             'cat_id'=>'required|exists:categories,id',
-            // 'brand_id'=>'nullable|exists:brands,id',
+            'brand_id'=>'nullable|exists:brands,id',
             'child_cat_id'=>'nullable|exists:categories,id',
             'is_featured'=>'sometimes|in:1',
             'status'=>'required|in:active,inactive',
-            // 'condition'=>'required|in:default,new,hot',
+            'condition'=>'required|in:default,new,hot',
             'price'=>'required|numeric',
             'discount'=>'nullable|numeric'
         ]);
@@ -70,13 +70,13 @@ class ProductController extends Controller
         }
         $data['slug']=$slug;
         $data['is_featured']=$request->input('is_featured',0);
-        // $size=$request->input('size');
-        // if($size){
-        //     $data['size']=implode(',',$size);
-        // }
-        // else{
-        //     $data['size']='';
-        // }
+        $size=$request->input('size');
+        if($size){
+            $data['size']=implode(',',$size);
+        }
+        else{
+            $data['size']='';
+        }
         // return $size;
         // return $data;
         $status=Product::create($data);
@@ -115,6 +115,7 @@ class ProductController extends Controller
         $items=Product::where('id',$id)->get();
         // return $items;
         return view('backend.product.edit')->with('product',$product)
+                    ->with('brands',$brand)
                     ->with('categories',$category)->with('items',$items);
     }
 
@@ -133,36 +134,36 @@ class ProductController extends Controller
             'summary'=>'string|required',
             'description'=>'string|nullable',
             'photo'=>'string|required',
-            // 'size'=>'nullable',
+            'size'=>'nullable',
             'stock'=>"required|numeric",
             'cat_id'=>'required|exists:categories,id',
             'child_cat_id'=>'nullable|exists:categories,id',
             'is_featured'=>'sometimes|in:1',
-            // 'brand_id'=>'nullable|exists:brands,id',
+            'brand_id'=>'nullable|exists:brands,id',
             'status'=>'required|in:active,inactive',
-            // 'condition'=>'required|in:default,new,hot',
+            'condition'=>'required|in:default,new,hot',
             'price'=>'required|numeric',
             'discount'=>'nullable|numeric'
         ]);
 
         $data=$request->all();
         $data['is_featured']=$request->input('is_featured',0);
-        // $size=$request->input('size');
-        // if($size){
-        //     $data['size']=implode(',',$size);
-        // }
-        // else{
-        //     $data['size']='';
-        // }
-        //return $data;
-         $status=$product->fill($data)->save();
+        $size=$request->input('size');
+        if($size){
+            $data['size']=implode(',',$size);
+        }
+        else{
+            $data['size']='';
+        }
+        // return $data;
+        $status=$product->fill($data)->save();
         if($status){
             request()->session()->flash('success','Product Successfully updated');
-         }
-         else{
-             request()->session()->flash('error','Please try again!!');
-         }
-         return redirect()->route('product.index');
+        }
+        else{
+            request()->session()->flash('error','Please try again!!');
+        }
+        return redirect()->route('product.index');
     }
 
     /**

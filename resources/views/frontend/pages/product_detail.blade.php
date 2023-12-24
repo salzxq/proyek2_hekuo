@@ -100,7 +100,7 @@
 											</div> --}}
 											<!--/ End Color -->
 											<!-- Size -->
-											{{-- @if($product_detail->size)
+											@if($product_detail->size)
 												<div class="size mt-4">
 													<h4>Size</h4>
 													<ul>
@@ -113,7 +113,7 @@
 														@endforeach
 													</ul>
 												</div>
-											@endif --}}
+											@endif
 											<!--/ End Size -->
 											<!-- Product Buy -->
 											<div class="product-buy">
@@ -416,7 +416,7 @@
                             <div class="quickview-peragraph">
                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia iste laborum ad impedit pariatur esse optio tempora sint ullam autem deleniti nam in quos qui nemo ipsum numquam.</p>
                             </div>
-                            {{-- <div class="size">
+                            <div class="size">
                                 <div class="row">
                                     <div class="col-lg-6 col-12">
                                         <h5 class="title">Size</h5>
@@ -426,7 +426,7 @@
                                             <option>l</option>
                                             <option>xl</option>
                                         </select>
-                                    </div> --}}
+                                    </div>
                                     <div class="col-lg-6 col-12">
                                         <h5 class="title">Color</h5>
                                         <select>
