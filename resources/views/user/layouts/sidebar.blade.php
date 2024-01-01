@@ -1,4 +1,4 @@
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+<ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color: green">
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('user')}}">
@@ -23,16 +23,15 @@
 
         <!-- Heading -->
         <div class="sidebar-heading">
-            Shop
+            History order
         </div>
     <!--Orders -->
     <li class="nav-item">
         <a class="nav-link" href="{{route('user.order.index')}}">
             <i class="fas fa-hammer fa-chart-area"></i>
-            <span>Orders</span>
+            <span>Order</span>
         </a>
     </li>
-
     <!-- Reviews -->
     <li class="nav-item">
         <a class="nav-link" href="{{route('user.productreview.index')}}">
@@ -52,7 +51,7 @@
     <li class="nav-item">
       <a class="nav-link" href="{{route('user.post-comment.index')}}">
           <i class="fas fa-comments fa-chart-area"></i>
-          <span>Comments</span>
+          <span>Comment</span>
       </a>
     </li>
 
