@@ -9,8 +9,8 @@
          </div>
      </div>
     <div class="card-header py-3">
-      <h6 class="m-0 font-weight-bold text-primary float-left">Product Lists</h6>
-      <a href="{{route('product.create')}}" class="btn btn-primary btn-sm float-right" data-toggle="tooltip" data-placement="bottom" title="Add User"><i class="fas fa-plus"></i> Add Product</a>
+      <h6 class="m-0 font-weight-bold text-primary float-left">List Hewan Kurban</h6>
+      <a href="{{route('product.create')}}" class="btn btn-primary btn-sm float-right" data-toggle="tooltip" data-placement="bottom" title="Add User"><i class="fas fa-plus"></i> Tambah Hewan Kurban</a>
     </div>
     <div class="card-body">
       <div class="table-responsive">
@@ -19,37 +19,16 @@
           <thead>
             <tr>
               <th>S.N.</th>
-              <th>Title</th>
-              <th>Category</th>
+              <th>Nama</th>
+              <th>Jenis Hewan</th>
               <th>Is Featured</th>
-              <th>Price</th>
-              <th>Discount</th>
-              {{-- <th>Size</th>
-              <th>Condition</th>
-              <th>Brand</th> --}}
+              <th>Harga</th>
               <th>Stock</th>
               <th>Photo</th>
               <th>Status</th>
               <th>Action</th>
             </tr>
           </thead>
-          <tfoot>
-            <tr>
-              <th>S.N.</th>
-              <th>Title</th>
-              <th>Category</th>
-              <th>Is Featured</th>
-              <th>Price</th>
-              <th>Discount</th>
-              {{-- <th>Size</th>
-              <th>Condition</th>
-              <th>Brand</th> --}}
-              <th>Stock</th>
-              <th>Photo</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-          </tfoot>
           <tbody>
 
             @foreach($products as $product)
@@ -67,12 +46,8 @@
                       </sub>
                     </td>
                     <td>{{(($product->is_featured==1)? 'Yes': 'No')}}</td>
-                    <td>Rs. {{$product->price}} /-</td>
-                    <td>  {{$product->discount}}% OFF</td>
-                    {{-- <td>{{$product->size}}</td>
-                    <td>{{$product->condition}}</td>
-                    <td> {{ucfirst($product->brand->title)}}</td> --}}
-                    <td>
+                    <td>Rp. {{$product->price}} /-</td>
+                    
                       @if($product->stock>0)
                       <span class="badge badge-primary">{{$product->stock}}</span>
                       @else
@@ -111,7 +86,7 @@
         </table>
         <span style="float:right">{{$products->links()}}</span>
         @else
-          <h6 class="text-center">No Products found!!! Please create Product</h6>
+          <h6 class="text-center">Tidak ada Hewan Kurban</h6>
         @endif
       </div>
     </div>

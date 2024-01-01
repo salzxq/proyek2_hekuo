@@ -20,8 +20,8 @@
               <th>S.N.</th>
               <th>Author</th>
               <th>Post Title</th>
-              <th>Message</th>
-              <th>Date</th>
+              <th>Pesan</th>
+              <th>Tanggal</th>
               <th>Status</th>
               <th>Action</th>
             </tr>
@@ -31,8 +31,8 @@
               <th>S.N.</th>
               <th>Author</th>
               <th>Post Title</th>
-              <th>Message</th>
-              <th>Date</th>
+              <th>Pesan</th>
+              <th>Tanggal</th>
               <th>Status</th>
               <th>Action</th>
             </tr>
@@ -66,7 +66,7 @@
         </table>
         <span style="float:right">{{$comments->links()}}</span>
         @else
-          <h6 class="text-center">No post comments found!!!</h6>
+          <h6 class="text-center">Tidak ada komentar kiriman yang ditemukan!!!</h6>
         @endif
       </div>
     </div>

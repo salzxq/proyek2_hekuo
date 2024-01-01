@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Order @if($order)- {{$order->cart_id}} @endif</title>
+  <title>Penitipan @if($penitipan)- {{$penitipan->penitipan_number}} @endif</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
 
-@if($order)
+@if($penitipan)
 <style type="text/css">
   .invoice-header {
     background: #f7f7f7;
@@ -84,37 +84,41 @@
   <div class="invoice-description">
     <div class="invoice-left-top float-left">
       <h6>Invoice to</h6>
-       <h3>{{$order->first_name}} {{$order->last_name}}</h3>
+       <h3>{{$penitipan->nama_depan}} {{$penitipan->nama_belakang}}</h3>
        <div class="address">
         <p>
-          <strong>Address: </strong>
-          {{ $order->address1 }}
+          <strong>Country: </strong>
+          {{$penitipan->country}}
         </p>
-         <p><strong>Phone:</strong> {{ $order->phone }}</p>
-         <p><strong>Email:</strong> {{ $order->email }}</p>
+        <p>
+          <strong>Address: </strong>
+          {{ $penitipan->address1 }} OR {{ $penitipan->address2}}
+        </p>
+         <p><strong>Phone:</strong> {{ $penitipan->phone }}</p>
+         <p><strong>Email:</strong> {{ $penitipan->email }}</p>
        </div>
     </div>
     <div class="invoice-right-top float-right" class="text-right">
-      <h3>Invoice #{{$order->cart_id}}</h3>
-      <p>{{ $order->created_at->format('D d m Y') }}</p>
-      {{-- <img class="img-responsive" src="data:image/png;base64, {{ base64_encode(QrCode::format('png')->size(150)->generate(route('admin.product.order.show', $order->id )))}}"> --}}
+      <h3>Invoice #{{$penitipan->penitipan_number}}</h3>
+      <p>{{ $penitipan->created_at->format('D d m Y') }}</p>
+      {{-- <img class="img-responsive" src="data:image/png;base64, {{ base64_encode(QrCode::format('png')->size(150)->generate(route('admin.product.penitipan.show', $penitipan->id )))}}"> --}}
     </div>
     <div class="clearfix"></div>
   </div>
   <section class="order_details pt-3">
     <div class="table-header">
-      <h5>Order Details</h5>
+      <h5>Detail Penitipan</h5>
     </div>
     <table class="table table-bordered table-stripe">
       <thead>
         <tr>
-          <th scope="col" class="col-6">Product</th>
-          <th scope="col" class="col-3">Quantity</th>
+          <th scope="col" class="col-6">Hewan</th>
+          <th scope="col" class="col-3">Jumlah</th>
           <th scope="col" class="col-3">Total</th>
         </tr>
       </thead>
       <tbody>
-      @foreach($order->cart_info as $cart)
+      @foreach($penitipan->cart_info as $cart)
       @php 
         $product=DB::table('products')->select('title')->where('id',$cart->product_id)->get();
       @endphp
@@ -133,7 +137,7 @@
         <tr>
           <th scope="col" class="empty"></th>
           <th scope="col" class="text-right">Subtotal:</th>
-          <th scope="col"> <span>${{number_format($order->sub_total,2)}}</span></th>
+          <th scope="col"> <span>${{number_format($penitipan->sub_total,2)}}</span></th>
         </tr>
       {{-- @if(!empty($order->coupon))
         <tr>
@@ -144,15 +148,18 @@
       @endif --}}
         <tr>
           <th scope="col" class="empty"></th>
+          @php
+            $shipping_charge=DB::table('shippings')->where('id',$penitipan->shipping_id)->pluck('price');
+          @endphp
           <th scope="col" class="text-right ">Shipping:</th>
-          <th><span>${{number_format($order->delivery_charge,2)}}</span></th>
+          <th><span>${{number_format($shipping_charge[0],2)}}</span></th>
         </tr>
         <tr>
           <th scope="col" class="empty"></th>
           <th scope="col" class="text-right">Total:</th>
           <th>
             <span>
-                ${{number_format($order->total_amount,2)}}
+                ${{number_format($penitipan->total_amount,2)}}
             </span>
           </th>
         </tr>

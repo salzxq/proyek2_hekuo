@@ -6,6 +6,7 @@ use App\Models\PostCategory;
 use App\Models\Order;
 use App\Models\Wishlist;
 use App\Models\Shipping;
+use App\Models\HargaPenitipan;
 use App\Models\Cart;
 // use Auth;
 class Helper{
@@ -115,6 +116,15 @@ class Helper{
             return 0;
         }
     }
+    public static function totalCartPriceBoard($user_id=''){
+        if(Auth::check()){
+            if($user_id=="") $user_id=auth()->user()->id;
+            return Cart::where('user_id',$user_id)->where('penitipan_id',null)->sum('amount');
+        }
+        else{
+            return 0;
+        }
+    }
     // Wishlist Count
     public static function wishlistCount($user_id=''){
        
@@ -158,6 +168,18 @@ class Helper{
         }
     }
 
+    public static function grandPricePenitipan($id,$user_id){
+        $order=Order::find($id);
+        dd($id);
+        if($order){
+            $hargapenitipan_price=(float)$order->hargapenitipan->price;
+            $order_price=self::orderPrice($id,$user_id);
+            return number_format((float)($order_price+$hargapenitipan_price),2,'.','');
+        }else{
+            return 0;
+        }
+    }
+
 
     // Admin home
     public static function earningPerMonth(){
@@ -170,8 +192,12 @@ class Helper{
         return number_format((float)($price),2,'.','');
     }
 
+    public static function hargapenitipan(){
+        return hargapenitipan::orderBy('id','DESC')->get();
+    }
+
     public static function shipping(){
-        return Shipping::orderBy('id','DESC')->get();
+        return hargapenitipan::orderBy('id','DESC')->get();
     }
 }
 

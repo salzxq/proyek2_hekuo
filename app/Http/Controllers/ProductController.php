@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
-use App\Models\Brand;
+
 
 use Illuminate\Support\Str;
 
@@ -30,10 +30,10 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $brand=Brand::get();
+
         $category=Category::where('is_parent',1)->get();
         // return $category;
-        return view('backend.product.create')->with('categories',$category)->with('brands',$brand);
+        return view('backend.product.create')->with('categories',$category);
     }
 
     /**
@@ -109,7 +109,6 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        $brand=Brand::get();
         $product=Product::findOrFail($id);
         $category=Category::where('is_parent',1)->get();
         $items=Product::where('id',$id)->get();

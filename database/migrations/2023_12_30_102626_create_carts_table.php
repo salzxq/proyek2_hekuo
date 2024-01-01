@@ -17,6 +17,7 @@ class CreateCartsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('order_id')->nullable();
+            $table->unsignedBigInteger('penitipan_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->float('price');
             $table->enum('status',['new','progress','delivered','cancel'])->default('new');
@@ -25,6 +26,7 @@ class CreateCartsTable extends Migration
             $table->foreign('product_id')->references('id')->on('products')->onDelete('CASCADE');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('CASCADE');
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('SET NULL');
+            $table->foreign('penitipan_id')->references('id')->on('penitipans')->onDelete('SET NULL');
             $table->timestamps();
         });
     }

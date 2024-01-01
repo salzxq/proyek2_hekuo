@@ -1,82 +1,76 @@
-@extends('user.layouts.master')
+@extends('backend.layouts.master')
 
 @section('main-content')
  <!-- DataTales Example -->
  <div class="card shadow mb-4">
      <div class="row">
          <div class="col-md-12">
-            @include('user.layouts.notification')
+            @include('backend.layouts.notification')
          </div>
      </div>
     <div class="card-header py-3">
-      <h6 class="m-0 font-weight-bold text-primary float-left">Order Lists</h6>
+      <h6 class="m-0 font-weight-bold text-primary float-left">Penitipan</h6>
     </div>
     <div class="card-body">
       <div class="table-responsive">
-        @if(count($orders)>0)
+        @if(count($penitipans)>0)
         <table class="table table-bordered" id="order-dataTable" width="100%" cellspacing="0">
           <thead>
             <tr>
               <th>S.N.</th>
-              <th>Order No.</th>
+              <th>No.Pesanan</th>
               <th>Nama</th>
-              <th>Email</th>
-              <th>Quantity</th>
-              <th> </th>
-              <th>Jumlah Total</th>
+              <th>Jumlah</th>
+              <th>Ongkir</th>
+              <th>Harga Penitipan</th>
+              <th>Total Keseluruhan</th>
+              <th>Deskripsi</th>
               <th>Status</th>
               <th>Action</th>
             </tr>
           </thead>
-          <tfoot>
-            <tr>
-              <th>S.N.</th>
-              <th>Order No.</th>
-              <th>Nama</th>
-              <th>Email</th>
-              <th>Quantity</th>
-              <<th></th>
-              <th>Jumlah Total</th>
-              <th>Status</th>
-              <th>Action</th>
-              </tr>
-          </tfoot>
           <tbody>
-            @foreach($orders as $order)
+            @foreach($penitipans as $penitipan)  
+            @php
+                $shipping_charge=DB::table('shippings')->where('id',$penitipan->shipping_id)->pluck('price');
+                $board_charge=DB::table('harga_penitipans')->where('id',$penitipan->board_id)->pluck('price');
+            @endphp 
                 <tr>
-                    <td>{{$order->id}}</td>
-                    <td>{{$order->order_number}}</td>
-                    <td>{{$order->first_name}} {{$order->last_name}}</td>
-                    <td>{{$order->email}}</td>
-                    <td>{{$order->quantity}}</td>
-                    <td>${{$order->shipping->price}}</td>
-                    <td>${{number_format($order->total_amount,2)}}</td>
+                    <td>{{$penitipan->id}}</td>
+                    <td>{{$penitipan->penitipan_number}}</td>
+                    <td>{{$penitipan->nama_depan}} {{$penitipan->nama_belakang}}</td>
+                    <td>{{$penitipan->quantity}}</td>
+                    <td>@foreach($shipping_charge as $data) Rp. {{number_format($data,2)}} @endforeach</td>
+                    <td>@foreach($board_charge as $data) Rp. {{number_format($data,2)}} @endforeach</td>
+                    <td>Rp.{{number_format($penitipan->total_amount,2)}}</td>
+                    <td>{{$penitipan->description}}</td>
                     <td>
-                        @if($order->status=='new')
-                          <span class="badge badge-primary">{{$order->status}}</span>
-                        @elseif($order->status=='process')
-                          <span class="badge badge-warning">{{$order->status}}</span>
-                        @elseif($order->status=='delivered')
-                          <span class="badge badge-success">{{$order->status}}</span>
+                        @if($penitipan->status=='new')
+                          <span class="badge badge-primary">{{$penitipan->status}}</span>
+                        @elseif($penitipan->status=='process')
+                          <span class="badge badge-warning">{{$penitipan->status}}</span>
+                        @elseif($penitipan->status=='delivered')
+                          <span class="badge badge-success">{{$penitipan->status}}</span>
                         @else
-                          <span class="badge badge-danger">{{$order->status}}</span>
+                          <span class="badge badge-danger">{{$penitipan->status}}</span>
                         @endif
                     </td>
                     <td>
-                        <a href="{{route('user.order.show',$order->id)}}" class="btn btn-warning btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="view" data-placement="bottom"><i class="fas fa-eye"></i></a>
-                        <form method="POST" action="{{route('user.order.delete',[$order->id])}}">
-                          @csrf
+                        <a href="{{route('penitipan.show',$penitipan->id)}}" class="btn btn-warning btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="view" data-placement="bottom"><i class="fas fa-eye"></i></a>
+                        <a href="{{route('penitipan.edit',$penitipan->id)}}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="edit" data-placement="bottom"><i class="fas fa-edit"></i></a>
+                        <form method="POST" action="{{route('penitipan.destroy',[$penitipan->id])}}">
+                          @csrf 
                           @method('delete')
-                              <button class="btn btn-danger btn-sm dltBtn" data-id={{$order->id}} style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fas fa-trash-alt"></i></button>
+                              <button class="btn btn-danger btn-sm dltBtn" data-id={{$penitipan->id}} style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fas fa-trash-alt"></i></button>
                         </form>
                     </td>
-                </tr>
+                </tr>  
             @endforeach
           </tbody>
         </table>
-        <span style="float:right">{{$orders->links()}}</span>
+        <span style="float:right">{{$penitipans->links()}}</span>
         @else
-          <h6 class="text-center">Tidak ada pesanan yang ditemukan!!! Silakan memesan beberapa produk</h6>
+          <h6 class="text-center">TIDAK ADA PENITIPAN HEWAN</h6>
         @endif
       </div>
     </div>
@@ -103,7 +97,7 @@
   <!-- Page level custom scripts -->
   <script src="{{asset('backend/js/demo/datatables-demo.js')}}"></script>
   <script>
-
+      
       $('#order-dataTable').DataTable( {
             "columnDefs":[
                 {
@@ -116,7 +110,7 @@
         // Sweet alert
 
         function deleteData(id){
-
+            
         }
   </script>
   <script>

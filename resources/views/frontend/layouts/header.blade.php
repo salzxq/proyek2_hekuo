@@ -21,7 +21,7 @@
                     <!-- Top Right -->
                     <div class="right-content">
                         <ul class="list-main">
-                        <li><i class="ti-location-pin"></i> <a href="{{route('order.track')}}">Track Order</a></li>
+                        <li><i class="ti-location-pin"></i> <a href="{{route('order.track')}}">Lacak Pesanan</a></li>
                             {{-- <li><i class="ti-alarm-clock"></i> <a href="#">Daily deal</a></li> --}}
                             @auth 
                                 @if(Auth::user()->role=='admin')
@@ -50,11 +50,9 @@
                     <div class="logo">
                         @php
                             $settings=DB::table('settings')->get();
-                        @endphp                    
-                        <a href="{{route('home')}}">
-                            {{-- <img src="@foreach($settings as $data) {{$data->logo}} @endforeach" alt="logo"> --}}
-                            <h3>Hekuo</h3>
-                        </a>
+                            @endphp                    
+                        <a href="{{route('home')}}"></a>
+                        <h1>HEKUO</h1>
                     </div>
                     <!--/ End Logo -->
                     <!-- Search Form -->
@@ -63,7 +61,7 @@
                         <!-- Search Form -->
                         <div class="search-top">
                             <form class="search-form">
-                                <input type="text" placeholder="Search here..." name="search">
+                                <input type="text" placeholder="Cari Disini..." name="search">
                                 <button value="search" type="submit"><i class="ti-search"></i></button>
                             </form>
                         </div>
@@ -76,14 +74,14 @@
                     <div class="search-bar-top">
                         <div class="search-bar">
                             <select>
-                                <option >Type Hewan Kurban</option>
+                                <option >Semua Jenis</option>
                                 @foreach(Helper::getAllCategory() as $cat)
                                     <option>{{$cat->title}}</option>
                                 @endforeach
                             </select>
                             <form method="POST" action="{{route('product.search')}}">
                                 @csrf
-                                <input name="search" placeholder="Search Hewan Kurban Here....." type="search">
+                                <input name="search" placeholder="Cari Jenis Hewan Disini....." type="search">
                                 <button class="btnn" type="submit"><i class="ti-search"></i></button>
                             </form>
                         </div>
@@ -111,7 +109,7 @@
                                 <div class="shopping-item">
                                     <div class="dropdown-cart-header">
                                         <span>{{count(Helper::getAllProductFromWishlist())}} Items</span>
-                                        <a href="{{route('wishlist')}}">View Wishlist</a>
+                                        <a href="{{route('wishlist')}}">Lihat daftar keinginan</a>
                                     </div>
                                     <ul class="shopping-list">
                                         {{-- {{Helper::getAllProductFromCart()}} --}}
@@ -132,7 +130,7 @@
                                             <span>Total</span>
                                             <span class="total-amount">${{number_format(Helper::totalWishlistPrice(),2)}}</span>
                                         </div>
-                                        <a href="{{route('cart')}}" class="btn animate">Cart</a>
+                                        <a href="{{route('cart')}}" class="btn animate">Keranjang</a>
                                     </div>
                                 </div>
                             @endauth
@@ -148,7 +146,7 @@
                                 <div class="shopping-item">
                                     <div class="dropdown-cart-header">
                                         <span>{{count(Helper::getAllProductFromCart())}} Items</span>
-                                        <a href="{{route('cart')}}">View Cart</a>
+                                        <a href="{{route('cart')}}">Lihat Keranjang</a>
                                     </div>
                                     <ul class="shopping-list">
                                         {{-- {{Helper::getAllProductFromCart()}} --}}

@@ -29,6 +29,7 @@ class CartController extends Controller
         }
 
         $already_cart = Cart::where('user_id', auth()->user()->id)->where('order_id',null)->where('product_id', $product->id)->first();
+        $already_cart1 = Cart::where('user_id', auth()->user()->id)->where('penitipan_id',null)->where('product_id', $product->id)->first();
         // return $already_cart;
         if($already_cart) {
             // dd($already_cart);
@@ -37,6 +38,16 @@ class CartController extends Controller
             // return $already_cart->quantity;
             if ($already_cart->product->stock < $already_cart->quantity || $already_cart->product->stock <= 0) return back()->with('error','Stock not sufficient!.');
             $already_cart->save();
+    
+        }
+        // return $already_cart;
+        else if($already_cart1) {
+            // dd($already_cart);
+            $already_cart1->quantity = $already_cart1->quantity + 1;
+            $already_cart1->amount = $product->price+ $already_cart1->amount;
+            // return $already_cart->quantity;
+            if ($already_cart1->product->stock < $already_car1t->quantity || $already_cart1->product->stock <= 0) return back()->with('error','Stock not sufficient!.');
+            $already_cart1->save();
             
         }else{
             
@@ -72,7 +83,7 @@ class CartController extends Controller
         }    
 
         $already_cart = Cart::where('user_id', auth()->user()->id)->where('order_id',null)->where('product_id', $product->id)->first();
-
+        $already_cart1 = Cart::where('user_id', auth()->user()->id)->where('penitipan_id',null)->where('product_id', $product->id)->first();
         // return $already_cart;
 
         if($already_cart) {
@@ -83,6 +94,19 @@ class CartController extends Controller
             if ($already_cart->product->stock < $already_cart->quantity || $already_cart->product->stock <= 0) return back()->with('error','Stock not sufficient!.');
 
             $already_cart->save();
+
+ 
+        }
+        // return $already_cart;
+
+        else if($already_cart1) {
+            $already_cart1->quantity = $already_cart1->quantity + $request->quant[1];
+            // $already_cart->price = ($product->price * $request->quant[1]) + $already_cart->price ;
+            $already_cart1->amount = ($product->price * $request->quant[1])+ $already_cart1->amount;
+
+            if ($already_cart1->product->stock < $already_cart1->quantity || $already_cart1->product->stock <= 0) return back()->with('error','Stock not sufficient!.');
+
+            $already_cart1->save();
             
         }else{
             
@@ -251,5 +275,10 @@ class CartController extends Controller
         //     $cart->save();
         // }
         return view('frontend.pages.checkout');
+    }
+
+    public function checkoutpenitipan(Request $request){
+        
+        return view('frontend.pages.checkoutpenitipan');
     }
 }

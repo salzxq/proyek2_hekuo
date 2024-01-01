@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Cart;
 class Product extends Model
 {
-    protected $fillable=['title','slug','summary','description','cat_id','child_cat_id','price','discount','status','photo','stock','is_featured'];
+    protected $fillable=['title','slug','summary','description','cat_id','child_cat_id','price','status','photo','stock','is_featured'];
 
     public function cat_info(){
         return $this->hasOne('App\Models\Category','id','cat_id');
@@ -42,8 +42,6 @@ class Product extends Model
         return $this->hasMany(Wishlist::class)->whereNotNull('cart_id');
     }
 
-    public function brand(){
-        return $this->hasOne(Brand::class,'id','brand_id');
-    }
+
 
 }

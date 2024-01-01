@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Cart;
-use App\Models\Order;
+use App\Models\Penitipan;
 use App\Models\Shipping;
+use App\Models\HargaPenitipan;
 use App\User;
 use PDF;
 use Notification;
@@ -13,7 +14,7 @@ use Helper;
 use Illuminate\Support\Str;
 use App\Notifications\StatusNotification;
 
-class OrderController extends Controller
+class PenitipanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,8 +23,8 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders=Order::orderBy('id','DESC')->paginate(10);
-        return view('backend.order.index')->with('orders',$orders);
+        $penitipans=Penitipan::orderBy('id','DESC')->paginate(10);
+        return view('backend.penitipan.index')->with('penitipans',$penitipans);
     }
 
     /**
@@ -45,9 +46,11 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'first_name'=>'string|required',
-            'last_name'=>'string|required',
+            'nama_depan'=>'string|required',
+            'nama_belakang'=>'string|required',
             'address1'=>'string|required',
+            'description'=>'string|required',
+            'angka'=>'numeric|required',           
             'coupon'=>'nullable|numeric',
             'phone'=>'numeric|required',
             'post_code'=>'string|nullable',
@@ -55,7 +58,7 @@ class OrderController extends Controller
         ]);
         // return $request->all();
 
-        if(empty(Cart::where('user_id',auth()->user()->id)->where('order_id',null)->first())){
+        if(empty(Cart::where('user_id',auth()->user()->id)->where('penitipan_id',null)->first())){
             request()->session()->flash('error','Cart is Empty !');
             return back();
         }
@@ -87,66 +90,68 @@ class OrderController extends Controller
         //         }
         // }
 
-        $order=new Order();
-        $order_data=$request->all();
-        $order_data['order_number']='ORD-'.strtoupper(Str::random(10));
-        $order_data['user_id']=$request->user()->id;
-        $order_data['shipping_id']=$request->shipping;
-        $shipping=Shipping::where('id',$order_data['shipping_id'])->pluck('price');
+        $penitipan=new Penitipan();
+        $penitipan_data=$request->all();
+        $penitipan_data['penitipan_number']='BRD-'.strtoupper(Str::random(10));
+        $penitipan_data['user_id']=$request->user()->id;
+        $penitipan_data['shipping_id']=$request->shipping;
+        $penitipan_data['board_id']=$request->board;
+        $shipping=Shipping::where('id',$penitipan_data['shipping_id'])->pluck('price');
+        $board=HargaPenitipan::where('id',$penitipan_data['board_id'])->pluck('price');
         // return session('coupon')['value'];
-        $order_data['sub_total']=Helper::totalCartPrice();
-        $order_data['quantity']=Helper::cartCount();
+        $penitipan_data['sub_total']=Helper::totalCartPrice();
+        $penitipan_data['quantity']=Helper::cartCount();
         if(session('coupon')){
-            $order_data['coupon']=session('coupon')['value'];
+            $penitipan_data['coupon']=session('coupon')['value'];
         }
-        if($request->shipping){
+        if($request->shipping && $request->board){
             if(session('coupon')){
-                $order_data['total_amount']=Helper::totalCartPrice()+$shipping[0]-session('coupon')['value'];
+                $penitipan_data['total_amount']=Helper::totalCartPrice()+$shipping[0]+$board[0]-session('coupon')['value'];
             }
             else{
-                $order_data['total_amount']=Helper::totalCartPrice()+$shipping[0];
+                $penitipan_data['total_amount']=Helper::totalCartPrice()+$shipping[0]+$board[0];
             }
         }
         else{
             if(session('coupon')){
-                $order_data['total_amount']=Helper::totalCartPrice()-session('coupon')['value'];
+                $penitipan_data['total_amount']=Helper::totalCartPrice()-session('coupon')['value'];
             }
             else{
-                $order_data['total_amount']=Helper::totalCartPrice();
+                $penitipan_data['total_amount']=Helper::totalCartPrice();
             }
         }
-        // return $order_data['total_amount'];
-        $order_data['status']="new";
+        // return $penitipan_data['total_amount'];
+        $penitipan_data['status']="new";
         if(request('payment_method')=='paypal'){
-            $order_data['payment_method']='paypal';
-            $order_data['payment_status']='paid';
+            $penitipan_data['payment_method']='paypal';
+            $penitipan_data['payment_status']='paid';
         }
         else{
-            $order_data['payment_method']='cod';
-            $order_data['payment_status']='Unpaid';
+            $penitipan_data['payment_method']='cod';
+            $penitipan_data['payment_status']='Unpaid';
         }
-        $order->fill($order_data);
-        $status=$order->save();
-        if($order)
-        // dd($order->id);
+        $penitipan->fill($penitipan_data);
+        $status=$penitipan->save();
+        if($penitipan)
+        // dd($penitipan->id);
         $users=User::where('role','admin')->first();
         $details=[
-            'title'=>'New order created',
-            'actionURL'=>route('order.show',$order->id),
+            'title'=>'New penitipan created',
+            'actionURL'=>route('penitipan.show',$penitipan->id),
             'fas'=>'fa-file-alt'
         ];
         Notification::send($users, new StatusNotification($details));
         if(request('payment_method')=='paypal'){
-            return redirect()->route('payment')->with(['id'=>$order->id]);
+            return redirect()->route('payment')->with(['id'=>$penitipan->id]);
         }
         else{
             session()->forget('cart');
             session()->forget('coupon');
         }
-        Cart::where('user_id', auth()->user()->id)->where('order_id', null)->update(['order_id' => $order->id]);
+        Cart::where('user_id', auth()->user()->id)->where('penitipan_id', null)->update(['penitipan_id' => $penitipan->id]);
 
         // dd($users);        
-        request()->session()->flash('success','Your product successfully placed in order');
+        request()->session()->flash('success','Your product successfully placed in penitipan');
         return redirect()->route('home');
     }
 
@@ -158,9 +163,9 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        $order=Order::find($id);
-        // return $order;
-        return view('backend.order.show')->with('order',$order);
+        $penitipan=Penitipan::find($id);
+        // return $penitipan;
+        return view('backend.penitipan.show')->with('penitipan',$penitipan);
     }
 
     /**
@@ -171,8 +176,8 @@ class OrderController extends Controller
      */
     public function edit($id)
     {
-        $order=Order::find($id);
-        return view('backend.order.edit')->with('order',$order);
+        $penitipan=penitipan::find($id);
+        return view('backend.penitipan.edit')->with('penitipan',$penitipan);
     }
 
     /**
@@ -184,28 +189,28 @@ class OrderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $order=Order::find($id);
+        $penitipan=Penitipan::find($id);
         $this->validate($request,[
             'status'=>'required|in:new,process,delivered,cancel'
         ]);
         $data=$request->all();
         // return $request->status;
         if($request->status=='delivered'){
-            foreach($order->cart as $cart){
+            foreach($penitipan->cart as $cart){
                 $product=$cart->product;
                 // return $product;
                 $product->stock -=$cart->quantity;
                 $product->save();
             }
         }
-        $status=$order->fill($data)->save();
+        $status=$penitipan->fill($data)->save();
         if($status){
-            request()->session()->flash('success','Successfully updated order');
+            request()->session()->flash('success','Successfully updated penitipan');
         }
         else{
-            request()->session()->flash('error','Error while updating order');
+            request()->session()->flash('error','Error while updating penitipan');
         }
-        return redirect()->route('order.index');
+        return redirect()->route('penitipan.index');
     }
 
     /**
@@ -216,19 +221,19 @@ class OrderController extends Controller
      */
     public function destroy($id)
     {
-        $order=Order::find($id);
-        if($order){
-            $status=$order->delete();
+        $penitipan=Penitipan::find($id);
+        if($penitipan){
+            $status=$penitipan->delete();
             if($status){
-                request()->session()->flash('success','Order Successfully deleted');
+                request()->session()->flash('success','penitipan Successfully deleted');
             }
             else{
-                request()->session()->flash('error','Order can not deleted');
+                request()->session()->flash('error','penitipan can not deleted');
             }
-            return redirect()->route('order.index');
+            return redirect()->route('penitipan.index');
         }
         else{
-            request()->session()->flash('error','Order can not found');
+            request()->session()->flash('error','penitipan can not found');
             return redirect()->back();
         }
     }
@@ -239,49 +244,49 @@ class OrderController extends Controller
 
     public function productTrackOrder(Request $request){
         // return $request->all();
-        $order=Order::where('user_id',auth()->user()->id)->where('order_number',$request->order_number)->first();
-        if($order){
-            if($order->status=="new"){
-            request()->session()->flash('success','Your order has been placed. please wait.');
+        $penitipan=Penitipan::where('user_id',auth()->user()->id)->where('penitipan_number',$request->penitipan_number)->first();
+        if($penitipan){
+            if($penitipan->status=="new"){
+            request()->session()->flash('success','Your penitipan has been placed. please wait.');
             return redirect()->route('home');
 
             }
-            elseif($order->status=="process"){
-                request()->session()->flash('success','Your order is under processing please wait.');
+            elseif($penitipan->status=="process"){
+                request()->session()->flash('success','Your penitipan is under processing please wait.');
                 return redirect()->route('home');
     
             }
-            elseif($order->status=="delivered"){
-                request()->session()->flash('success','Your order is successfully delivered.');
+            elseif($penitipan->status=="delivered"){
+                request()->session()->flash('success','Your penitipan is successfully delivered.');
                 return redirect()->route('home');
     
             }
             else{
-                request()->session()->flash('error','Your order canceled. please try again');
+                request()->session()->flash('error','Your penitipan canceled. please try again');
                 return redirect()->route('home');
     
             }
         }
         else{
-            request()->session()->flash('error','Invalid order numer please try again');
+            request()->session()->flash('error','Invalid penitipan numer please try again');
             return back();
         }
     }
 
     // PDF generate
     public function pdf(Request $request){
-        $order=Order::getAllOrder($request->id);
-        // return $order;
-        $file_name=$order->order_number.'-'.$order->first_name.'.pdf';
+        $penitipan=Penitipan::getAllPenitipan($request->id);
+        // return $penitipan;
+        $file_name=$penitipan->penitipan_number.'-'.$penitipan->nama_depan.'.pdf';
         // return $file_name;
-        $pdf=PDF::loadview('backend.order.pdf',compact('order'));
+        $pdf=PDF::loadview('backend.penitipan.pdf',compact('penitipan'));
         return $pdf->download($file_name);
     }
     // Income chart
     public function incomeChart(Request $request){
         $year=\Carbon\Carbon::now()->year;
         // dd($year);
-        $items=Order::with(['cart_info'])->whereYear('created_at',$year)->where('status','delivered')->get()
+        $items=Penitipan::with(['cart_info'])->whereYear('created_at',$year)->where('status','delivered')->get()
             ->groupBy(function($d){
                 return \Carbon\Carbon::parse($d->created_at)->format('m');
             });

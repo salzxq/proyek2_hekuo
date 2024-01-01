@@ -41,7 +41,7 @@
         </div>
 
         <div class="form-group">
-          <label for="address" class="col-form-label">Address <span class="text-danger">*</span></label>
+          <label for="address" class="col-form-label">Alamat <span class="text-danger">*</span></label>
           <input type="text" class="form-control" name="address" required value="{{$data->address}}">
           @error('address')
           <span class="text-danger">{{$message}}</span>
@@ -55,7 +55,7 @@
           @enderror
         </div>
         <div class="form-group">
-          <label for="phone" class="col-form-label">Phone Number <span class="text-danger">*</span></label>
+          <label for="phone" class="col-form-label">No.Handphone <span class="text-danger">*</span></label>
           <input type="text" class="form-control" name="phone" required value="{{$data->phone}}">
           @error('phone')
           <span class="text-danger">{{$message}}</span>

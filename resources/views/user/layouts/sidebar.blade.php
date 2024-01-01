@@ -1,15 +1,10 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a style="height: 120px" class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('user')}}">
-      <div class="sidebar-brand-icon ">
-          @if(Auth()->user()->photo)
-            <img class="img-profile rounded-circle" src="{{Auth()->user()->photo}}">
-          @else
-            <img class="img-profile rounded-circle" src="{{asset('backend/img/avatar.png')}}">
-          @endif
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('user')}}">
+      <div class="sidebar-brand-icon rotate-n-15">
+        <i class="fas fa-laugh-wink"></i>
       </div>
-      
       <div class="sidebar-brand-text mx-3">User</div>
     </a>
 
@@ -59,6 +54,22 @@
           <i class="fas fa-comments fa-chart-area"></i>
           <span>Comments</span>
       </a>
+    </li>
+
+  <!--Setting-->
+    <div class="sidebar-heading">
+            Setting
+        </div>
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{route('user-profile')}}">
+            <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+            <span>Profile</span></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{route('user.change.password.form')}}">
+            <i class="fas fa-key fa-sm fa-fw mr-2 text-gray-400"></i>
+            <span>Ubah Password</span></a>
     </li>
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">

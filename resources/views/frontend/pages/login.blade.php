@@ -21,20 +21,21 @@
     <!-- End Breadcrumbs -->
             
     <!-- Shop Login -->
-    <section class="shop login section" style="background-image: url(/img/bungkus.jpg)">
+    <section class="shop login section "style="background-image: url('/img/bungkus.jpg')">
         <div class="container">
             <div class="row"> 
                 <div class="col-lg-6 offset-lg-3 col-12">
                     <div class="login-form">
                         <h2>Login</h2>
-                        <p>Please register in order to checkout more quickly</p>
+                        <p></p>
+                        <img src="/img/reguser.png" alt=" " class="mb-3">
                         <!-- Form -->
                         <form class="form" method="post" action="{{route('login.submit')}}">
                             @csrf
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <label>Your Email<span>*</span></label>
+                                        <label>Email Anda<span>*</span></label>
                                         <input type="email" name="email" placeholder="" required="required" value="{{old('email')}}">
                                         @error('email')
                                             <span class="text-danger">{{$message}}</span>
@@ -43,7 +44,7 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <label>Your Password<span>*</span></label>
+                                        <label>Password Anda<span>*</span></label>
                                         <input type="password" name="password" placeholder="" required="required" value="{{old('password')}}">
                                         @error('password')
                                             <span class="text-danger">{{$message}}</span>
@@ -61,11 +62,11 @@
 
                                     </div>
                                     <div class="checkbox">
-                                        <label class="checkbox-inline" for="2"><input name="news" id="2" type="checkbox">Remember me</label>
+                                        <label class="checkbox-inline" for="2"><input name="news" id="2" type="checkbox">Ingat Saya</label>
                                     </div>
                                     @if (Route::has('password.request'))
                                         <a class="lost-pass" href="{{ route('password.reset') }}">
-                                            Lost your password?
+                                            Lupa Password?
                                         </a>
                                     @endif
                                 </div>
@@ -104,5 +105,22 @@
     .btn-google:hover{
         background:rgb(243, 26, 26) !important;
     }
+    .form-group input[type="text"],
+        .form-group input[type="password"] {
+            border-radius: 90px; /* Mengatur sudut lengkung */
+            padding: 10px; /* Mengatur padding agar terlihat lebih luas */
+            border: 1px solid #ccc; /* Mengatur border agar terlihat */
+            width: 100%; /* Lebar sesuai dengan container */
+            box-sizing: border-box; /* Menghitung border dan padding dalam lebar */
+            margin-bottom: 15px; /* Jarak antara kotak form */
+        }
+
+        .form-group label {
+            font-weight: bold; /* Mengatur tebal pada label */
+        }
+
+        .text-danger {
+            color: red; /* Warna untuk pesan error */
+        }
 </style>
 @endpush

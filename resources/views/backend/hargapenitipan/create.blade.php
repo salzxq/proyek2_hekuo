@@ -1,16 +1,28 @@
 @extends('backend.layouts.master')
-@section('title','E-SHOP || Brand Create')
+
 @section('main-content')
 
 <div class="card">
-    <h5 class="card-header">Add Brand</h5>
+    <h5 class="card-header">Add Harga Penitipan</h5>
     <div class="card-body">
-      <form method="post" action="{{route('brand.store')}}">
+      <form method="post" action="{{route('hargapenitipan.store')}}">
         {{csrf_field()}}
         <div class="form-group">
-          <label for="inputTitle" class="col-form-label">Title <span class="text-danger">*</span></label>
-        <input id="inputTitle" type="text" name="title" placeholder="Enter title"  value="{{old('title')}}" class="form-control">
-        @error('title')
+          <label for="waktu" class="col-form-label">Waktu <span class="text-danger">*</span></label>
+          <select name="waktu" class="form-control">
+              <option value="harian" >harian</option>
+              <option value="bulanan">bulanan</option>
+              <option value="tahunan">tahunan</option>
+          </select>
+          @error('status')
+          <span class="text-danger">{{$message}}</span>
+          @enderror
+        </div>
+
+        <div class="form-group">
+          <label for="price" class="col-form-label">Price <span class="text-danger">*</span></label>
+        <input id="price" type="number" name="price" placeholder="Enter price"  value="{{old('price')}}" class="form-control">
+        @error('price')
         <span class="text-danger">{{$message}}</span>
         @enderror
         </div>

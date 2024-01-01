@@ -16,7 +16,7 @@
             <th>Name</th>
             <th>Email</th>
             <th>Quantity</th>
-            <th>Charge</th>
+            <th></th>
             <th>Total Amount</th>
             <th>Status</th>
             <th>Action</th>

@@ -9,6 +9,8 @@
     use App\Http\Controllers\CartController;
     use App\Http\Controllers\WishlistController;
     use App\Http\Controllers\OrderController;
+    use App\Http\Controllers\PenitipanController;
+    use App\Http\Controllers\HargaPenitipanController;
     use App\Http\Controllers\ProductReviewController;
     use App\Http\Controllers\PostCommentController;
     use App\Http\Controllers\CouponController;
@@ -65,7 +67,6 @@
     Route::post('/product/search', [FrontendController::class, 'productSearch'])->name('product.search');
     Route::get('/product-cat/{slug}', [FrontendController::class, 'productCat'])->name('product-cat');
     Route::get('/product-sub-cat/{slug}/{sub_slug}', [FrontendController::class, 'productSubCat'])->name('product-sub-cat');
-    Route::get('/product-brand/{slug}', [FrontendController::class, 'productBrand'])->name('product-brand');
 // Cart section
     Route::get('/add-to-cart/{slug}', [CartController::class, 'addToCart'])->name('add-to-cart')->middleware('user');
     Route::post('/add-to-cart', [CartController::class, 'singleAddToCart'])->name('single-add-to-cart')->middleware('user');
@@ -76,6 +77,7 @@
         return view('frontend.pages.cart');
     })->name('cart');
     Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout')->middleware('user');
+    Route::get('/checkoutpenitipan', [CartController::class, 'checkoutpenitipan'])->name('checkoutpenitipan')->middleware('user');
 // Wishlist
     Route::get('/wishlist', function () {
         return view('frontend.pages.wishlist');
@@ -85,6 +87,9 @@
     Route::post('cart/order', [OrderController::class, 'store'])->name('cart.order');
     Route::get('order/pdf/{id}', [OrderController::class, 'pdf'])->name('order.pdf');
     Route::get('/income', [OrderController::class, 'incomeChart'])->name('product.order.income');
+    Route::post('cart/penitipan', [PenitipanController::class, 'store'])->name('cart.penitipan');
+    Route::get('penitipan/pdf/{id}', [PenitipanController::class, 'pdf'])->name('penitipan.pdf');
+    // Route::get('/income', [PenitipanController::class, 'incomeChart'])->name('product.penitipan.income');
 // Route::get('/user/chart',[AdminController::class, 'userPieChart'])->name('user.piechart');
     Route::get('/product-grids', [FrontendController::class, 'productGrids'])->name('product-grids');
     Route::get('/product-lists', [FrontendController::class, 'productLists'])->name('product-lists');
@@ -129,8 +134,7 @@
         Route::resource('users', 'UsersController');
         // Banner
         Route::resource('banner', 'BannerController');
-        // Brand
-        Route::resource('brand', 'BrandController');
+        
         // Profile
         Route::get('/profile', [AdminController::class, 'profile'])->name('admin-profile');
         Route::post('/profile/{id}', [AdminController::class, 'profileUpdate'])->name('profile-update');
@@ -152,8 +156,11 @@
 
         // Order
         Route::resource('/order', 'OrderController');
+        Route::resource('/penitipan', 'PenitipanController');
         // Shipping
         Route::resource('/shipping', 'ShippingController');
+        // HARGA Penitipan
+        Route::resource('/hargapenitipan', 'HargaPenitipanController');
         // Coupon
         Route::resource('/coupon', 'CouponController');
         // Settings

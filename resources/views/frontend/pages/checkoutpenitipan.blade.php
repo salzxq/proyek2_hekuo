@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 
-@section('title','Checkout page')
+@section('title','Checkout Penitipan page')
 
 @section('main-content')
 
@@ -24,21 +24,21 @@
     <!-- Start Checkout -->
     <section class="shop checkout section">
         <div class="container">
-                <form class="form" method="POST" action="{{route('cart.order')}}">
+                <form class="form" method="POST" action="{{route('cart.penitipan')}}">
                     @csrf
                     <div class="row"> 
 
                         <div class="col-lg-8 col-12">
                             <div class="checkout-form">
                                 <h2>Lakukan Pembayaran Anda Di Sini</h2>
-                                <p>Silakan mendaftar untuk checkout lebih cepat</p>
+                                <p>Silakan mendaftar untuk melakukan penitipan</p>
                                 <!-- Form -->
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-12">
                                         <div class="form-group">
                                             <label>Nama depan<span>*</span></label>
-                                            <input type="text" name="first_name" placeholder="" value="{{old('first_name')}}" value="{{old('first_name')}}">
-                                            @error('first_name')
+                                            <input type="text" name="nama_depan" placeholder="" value="{{old('nama_depan')}}" value="{{old('nama_depan')}}">
+                                            @error('nama_depan')
                                                 <span class='text-danger'>{{$message}}</span>
                                             @enderror
                                         </div>
@@ -46,8 +46,8 @@
                                     <div class="col-lg-6 col-md-6 col-12">
                                         <div class="form-group">
                                             <label>Nama belakang<span>*</span></label>
-                                            <input type="text" name="last_name" placeholder="" value="{{old('lat_name')}}">
-                                            @error('last_name')
+                                            <input type="text" name="nama_belakang" placeholder="" value="{{old('lat_name')}}">
+                                            @error('nama_belakang')
                                                 <span class='text-danger'>{{$message}}</span>
                                             @enderror
                                         </div>
@@ -82,13 +82,24 @@
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-12">
                                         <div class="form-group">
-                                            <label>Postal Code</label>
+                                            <label>Kode Pos</label>
                                             <input type="text" name="post_code" placeholder="" value="{{old('post_code')}}">
                                             @error('post_code')
                                                 <span class='text-danger'>{{$message}}</span>
                                             @enderror
                                         </div>
                                     </div>
+
+                                    <div class="col-lg-6 col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label>Catatan untuk Penitipan</label>
+                                            <textarea class="form-control" id="description" name="description">{{old('description')}}</textarea>
+                                            @error('description')
+                                                <span class='text-danger'>{{$message}}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    
                                     
                                 </div>
                                 <!--/ End Form -->
@@ -101,14 +112,30 @@
                                     <h2>CART  TOTALS</h2>
                                     <div class="content">
                                         <ul>
-										    <li class="order_subtotal" data-price="{{Helper::totalCartPrice()}}">Cart Subtotal<span>${{number_format(Helper::totalCartPrice(),2)}}</span></li>
+										    <li class="order_subtotal" data-price="{{Helper::totalCartPrice()}}">Cart Subtotal<span>Rp.{{number_format(Helper::totalCartPrice(),2)}}</span></li>
                                             <li class="shipping">
                                                 Shipping Cost
                                                 @if(count(Helper::shipping())>0 && Helper::cartCount()>0)
                                                     <select name="shipping" class="nice-select">
                                                         <option value="">Select your address</option>
                                                         @foreach(Helper::shipping() as $shipping)
-                                                        <option value="{{$shipping->id}}" class="shippingOption" data-price="{{$shipping->price}}">{{$shipping->type}}: ${{$shipping->price}}</option>
+                                                        <option value="{{$shipping->id}}" class="shippingOption" data-price="{{$shipping->price}}">{{$shipping->type}}: Rp.{{$shipping->price}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                @else 
+                                                    <span>Free</span>
+                                                @endif
+                                            </li>
+                                            <li class="penitipan">
+                                                Harga Penitipan
+                                                @if(count(Helper::hargapenitipan())>0 && Helper::cartCount()>0)
+                                                <div class="form-group">                                                                                              
+                                                    <input type="number" class="nice-select" name="angka" placeholder="Berapa jangka waktu" required value="{{old('angka')}}">
+                                                </div>
+                                                    <select name="hargapenitipan" class="nice-select">
+                                                        <option value="">pilih harian,bulanan</option>
+                                                        @foreach(Helper::hargapenitipan() as $hargapenitipan)
+                                                        <option value="{{$hargapenitipan->id}}" class="hargapenitipanOption" data-price="{{$hargapenitipan->price}}">{{$hargapenitipan->waktu}}: Rp.{{$hargapenitipan->price}}</option>
                                                         @endforeach
                                                     </select>
                                                 @else 
@@ -117,7 +144,7 @@
                                             </li>
                                             
                                             @if(session('coupon'))
-                                            <li class="coupon_price" data-price="{{session('coupon')['value']}}">You Save<span>${{number_format(session('coupon')['value'],2)}}</span></li>
+                                            <li class="coupon_price" data-price="{{session('coupon')['value']}}">You Save<span>Rp.{{number_format(session('coupon')['value'],2)}}</span></li>
                                             @endif
                                             @php
                                                 $total_amount=Helper::totalCartPrice();
@@ -126,9 +153,9 @@
                                                 }
                                             @endphp
                                             @if(session('coupon'))
-                                                <li class="last"  id="order_total_price">Total<span>${{number_format($total_amount,2)}}</span></li>
+                                                <li class="last"  id="order_total_price">Total<span>Rp.{{number_format($total_amount,2)}}</span></li>
                                             @else
-                                                <li class="last"  id="order_total_price">Total<span>${{number_format($total_amount,2)}}</span></li>
+                                                <li class="last"  id="order_total_price">Total<span>Rp.{{number_format($total_amount,2)}}</span></li>
                                             @endif
                                         </ul>
                                     </div>
@@ -142,7 +169,7 @@
                                             {{-- <label class="checkbox-inline" for="1"><input name="updates" id="1" type="checkbox"> Check Payments</label> --}}
                                             <form-group>
                                                 <input name="payment_method"  type="radio" value="cod"> <label> Cash On Delivery</label><br>
-                                                <input name="payment_method"  type="radio" value="paypal"> <label> PayPal</label> 
+                                                <input name="payment_method"  type="radio" value="paypal"> <label> Dana</label> 
                                             </form-group>
                                             
                                         </div>
@@ -160,7 +187,7 @@
                                 <div class="single-widget get-button">
                                     <div class="content">
                                         <div class="button">
-                                            <button type="submit" class="btn">proceed to checkout</button>
+                                            <button type="submit" class="btn">Proses ke Penitipan</button>
                                         </div>
                                     </div>
                                 </div>
@@ -229,6 +256,15 @@
 			width: 100%;
 			margin-left: 10px;
 		}
+        li.penitipan{
+			display: inline-flex;
+			width: 100%;
+			font-size: 14px;
+		}
+		li.penitipan .input-group-icon {
+			width: 100%;
+			margin-left: 10px;
+		}
 		.input-group-icon .icon {
 			position: absolute;
 			left: 20px;
@@ -271,6 +307,7 @@
 	<script>
 		function showMe(box){
 			var checkbox=document.getElementById('shipping').style.display;
+            var checkbox=document.getElementById('penitipan').style.display;
 			// alert(checkbox);
 			var vis= 'none';
 			if(checkbox=="none"){
@@ -284,15 +321,27 @@
 	</script>
 	<script>
 		$(document).ready(function(){
-			$('.shipping select[name=shipping]').change(function(){
-				let cost = parseFloat( $(this).find('option:selected').data('price') ) || 0;
-				let subtotal = parseFloat( $('.order_subtotal').data('price') ); 
-				let coupon = parseFloat( $('.coupon_price').data('price') ) || 0; 
-				// alert(coupon);
-				$('#order_total_price span').text('$'+(subtotal + cost-coupon).toFixed(2));
-			});
+            $('select[name=shipping], select[name=hargapenitipan], input[name=angka]').change(function(){
+                // Ambil nilai biaya pengiriman dari elemen terpilih di select[name=shipping]
+                let shippingCost = parseFloat($('select[name=shipping] option:selected').data('price')) || 0;
 
-		});
+                // Ambil nilai biaya dari elemen terpilih di select[name=other_select]
+                let otherCost = parseFloat($('select[name=hargapenitipan] option:selected').data('price')) || 0;
+
+                let subtotal = parseFloat($('.order_subtotal').data('price')); 
+                let coupon = parseFloat($('.coupon_price').data('price')) || 0;
+
+                // Ambil nilai dari elemen input[name=angka]
+                let angkaValue = parseFloat($('input[name=angka]').val()) || 0;
+
+                // Jumlahkan biaya pengiriman, biaya dari other_select, subtotal, nilai angka, dan kurangkan coupon
+                let total = subtotal + shippingCost + (otherCost*angkaValue) - coupon;
+
+                // Tampilkan hasilnya di elemen dengan ID 'order_total_price'
+                $('#order_total_price span').text('$' + total.toFixed(2));
+            });
+});
+
 
 	</script>
 

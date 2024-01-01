@@ -4,19 +4,17 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBrandsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('brands', function (Blueprint $table) {
+        Schema::create('harga_penitipans', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('slug')->unique();
+            $table->enum('waktu',['harian','bulanan','tahunan']);
+            $table->decimal('price')->default('0');
             $table->enum('status',['active','inactive'])->default('active');
             $table->timestamps();
         });
@@ -24,11 +22,9 @@ class CreateBrandsTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::dropIfExists('brands');
+        Schema::dropIfExists('harga_penitipans');
     }
-}
+};
