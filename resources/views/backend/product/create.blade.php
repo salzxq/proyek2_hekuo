@@ -8,15 +8,15 @@
       <form method="post" action="{{route('product.store')}}">
         {{csrf_field()}}
         <div class="form-group">
-          <label for="inputTitle" class="col-form-label">Title <span class="text-danger">*</span></label>
-          <input id="inputTitle" type="text" name="title" placeholder="Enter title"  value="{{old('title')}}" class="form-control">
+          <label for="inputTitle" class="col-form-label">Judul <span class="text-danger">*</span></label>
+          <input id="inputTitle" type="text" name="title" placeholder="Masukan judul"  value="{{old('title')}}" class="form-control">
           @error('title')
           <span class="text-danger">{{$message}}</span>
           @enderror
         </div>
 
         <div class="form-group">
-          <label for="summary" class="col-form-label">Summary <span class="text-danger">*</span></label>
+          <label for="summary" class="col-form-label">Deskripsi Singkat <span class="text-danger">*</span></label>
           <textarea class="form-control" id="summary" name="summary">{{old('summary')}}</textarea>
           @error('summary')
           <span class="text-danger">{{$message}}</span>
@@ -24,7 +24,7 @@
         </div>
 
         <div class="form-group">
-          <label for="description" class="col-form-label">Description</label>
+          <label for="description" class="col-form-label">Deskripsi</label>
           <textarea class="form-control" id="description" name="description">{{old('description')}}</textarea>
           @error('description')
           <span class="text-danger">{{$message}}</span>

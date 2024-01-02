@@ -3,7 +3,7 @@
 @section('main-content')
 
 <div class="card">
-    <h5 class="card-header">Edit Category</h5>
+    <h5 class="card-header">Edit Jenis Hewan Kurban</h5>
     <div class="card-body">
       <form method="post" action="{{route('category.update',$category->id)}}">
         @csrf 

@@ -29,7 +29,7 @@ class Helper{
             ?>
             
             <li>
-            <a href="javascript:void(0);">Category<i class="ti-angle-down"></i></a>
+            <a href="javascript:void(0);">Jenis Hewan<i class="ti-angle-down"></i></a>
                 <ul class="dropdown border-0 shadow">
                 <?php
                     foreach($menu as $cat_info){
@@ -111,6 +111,7 @@ class Helper{
         if(Auth::check()){
             if($user_id=="") $user_id=auth()->user()->id;
             return Cart::where('user_id',$user_id)->where('order_id',null)->sum('amount');
+            
         }
         else{
             return 0;

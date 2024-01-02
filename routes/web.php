@@ -6,6 +6,7 @@
     use App\Http\Controllers\FrontendController;
     use App\Http\Controllers\Auth\LoginController;
     use App\Http\Controllers\MessageController;
+    use App\Http\Controllers\TransactionController;
     use App\Http\Controllers\CartController;
     use App\Http\Controllers\WishlistController;
     use App\Http\Controllers\OrderController;
@@ -85,7 +86,9 @@
     Route::get('/wishlist/{slug}', [WishlistController::class, 'wishlist'])->name('add-to-wishlist')->middleware('user');
     Route::get('wishlist-delete/{id}', [WishlistController::class, 'wishlistDelete'])->name('wishlist-delete');
     Route::post('cart/order', [OrderController::class, 'store'])->name('cart.order');
+   
     Route::get('order/pdf/{id}', [OrderController::class, 'pdf'])->name('order.pdf');
+    Route::get('/transaksi/{id}', [OrderController::class, 'pay'])->name('order.transaksi');
     Route::get('/income', [OrderController::class, 'incomeChart'])->name('product.order.income');
     Route::post('cart/penitipan', [PenitipanController::class, 'store'])->name('cart.penitipan');
     Route::get('penitipan/pdf/{id}', [PenitipanController::class, 'pdf'])->name('penitipan.pdf');
@@ -186,6 +189,7 @@
         //  Order
         Route::get('/order', "HomeController@orderIndex")->name('user.order.index');
         Route::get('/order/show/{id}', "HomeController@orderShow")->name('user.order.show');
+        // Route::get('/checkout/transaksi', "HomeController@orderPay")->name('order.transaksi');
         Route::delete('/order/delete/{id}', [HomeController::class, 'userOrderDelete'])->name('user.order.delete');
         // Product Review
         Route::get('/user-review', [HomeController::class, 'productReviewIndex'])->name('user.productreview.index');

@@ -3,14 +3,14 @@
 @section('main-content')
 
 <div class="card">
-    <h5 class="card-header">Edit Product</h5>
+    <h5 class="card-header">Edit Hewan Kurban</h5>
     <div class="card-body">
       <form method="post" action="{{route('product.update',$product->id)}}">
         @csrf 
         @method('PATCH')
         <div class="form-group">
-          <label for="inputTitle" class="col-form-label">Title <span class="text-danger">*</span></label>
-          <input id="inputTitle" type="text" name="title" placeholder="Enter title"  value="{{$product->title}}" class="form-control">
+          <label for="inputTitle" class="col-form-label">Judul <span class="text-danger">*</span></label>
+          <input id="inputTitle" type="text" name="title" placeholder="Masukan judul"  value="{{$product->title}}" class="form-control">
           @error('title')
           <span class="text-danger">{{$message}}</span>
           @enderror

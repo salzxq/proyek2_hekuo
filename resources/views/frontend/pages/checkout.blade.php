@@ -4,6 +4,8 @@
 
 @section('main-content')
 
+<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key={(env('MINDTRANS_CLIENT_KEY'))}></script>
+
     <!-- Breadcrumbs -->
     <div class="breadcrumbs">
         <div class="container">
@@ -24,6 +26,7 @@
     <!-- Start Checkout -->
     <section class="shop checkout section">
         <div class="container">
+            <div id="snap-container">
                 <form class="form" method="POST" action="{{route('cart.order')}}">
                     @csrf
                     <div class="row"> 
@@ -101,14 +104,14 @@
                                     <h2>CART  TOTALS</h2>
                                     <div class="content">
                                         <ul>
-										    <li class="order_subtotal" data-price="{{Helper::totalCartPrice()}}">Cart Subtotal<span>${{number_format(Helper::totalCartPrice(),2)}}</span></li>
+										    <li class="order_subtotal" data-price="{{Helper::totalCartPrice()}}">Cart Subtotal<span>Rp.{{number_format(Helper::totalCartPrice(),2)}}</span></li>
                                             <li class="shipping">
                                                 Shipping Cost
                                                 @if(count(Helper::shipping())>0 && Helper::cartCount()>0)
                                                     <select name="shipping" class="nice-select">
                                                         <option value="">Select your address</option>
                                                         @foreach(Helper::shipping() as $shipping)
-                                                        <option value="{{$shipping->id}}" class="shippingOption" data-price="{{$shipping->price}}">{{$shipping->type}}: ${{$shipping->price}}</option>
+                                                        <option value="{{$shipping->id}}" class="shippingOption" data-price="{{$shipping->price}}">{{$shipping->type}}: Rp.{{$shipping->price}}</option>
                                                         @endforeach
                                                     </select>
                                                 @else 
@@ -117,7 +120,7 @@
                                             </li>
                                             
                                             @if(session('coupon'))
-                                            <li class="coupon_price" data-price="{{session('coupon')['value']}}">You Save<span>${{number_format(session('coupon')['value'],2)}}</span></li>
+                                            <li class="coupon_price" data-price="{{session('coupon')['value']}}">You Save<span>Rp.{{number_format(session('coupon')['value'],2)}}</span></li>
                                             @endif
                                             @php
                                                 $total_amount=Helper::totalCartPrice();
@@ -126,9 +129,9 @@
                                                 }
                                             @endphp
                                             @if(session('coupon'))
-                                                <li class="last"  id="order_total_price">Total<span>${{number_format($total_amount,2)}}</span></li>
+                                                <li class="last"  id="order_total_price">Total<span>Rp.{{number_format($total_amount,2)}}</span></li>
                                             @else
-                                                <li class="last"  id="order_total_price">Total<span>${{number_format($total_amount,2)}}</span></li>
+                                                <li class="last"  id="order_total_price">Total<span>Rp.{{number_format($total_amount,2)}}</span></li>
                                             @endif
                                         </ul>
                                     </div>
@@ -142,25 +145,30 @@
                                             {{-- <label class="checkbox-inline" for="1"><input name="updates" id="1" type="checkbox"> Check Payments</label> --}}
                                             <form-group>
                                                 <input name="payment_method"  type="radio" value="cod"> <label> Cash On Delivery</label><br>
-                                                <input name="payment_method"  type="radio" value="paypal"> <label> PayPal</label> 
+                                                <input name="payment_method"  type="radio" value="paypal"> <label> Bayar</label>
                                             </form-group>
                                             
                                         </div>
                                     </div>
                                 </div>
+                                <div class="single-widget payement">
+                                    <div class="content">
+                                        <button id="pay-button" class="btn">Proceed to Payment</button>
+                                    </div>
+                                </div>
                                 <!--/ End Order Widget -->
                                 <!-- Payment Method Widget -->
-                                <div class="single-widget payement">
+                                {{-- <div class="single-widget payement">
                                     <div class="content">
                                         <img src="{{('backend/img/payment-method.png')}}" alt="#">
                                     </div>
-                                </div>
+                                </div> --}}
                                 <!--/ End Payment Method Widget -->
                                 <!-- Button Widget -->
                                 <div class="single-widget get-button">
                                     <div class="content">
                                         <div class="button">
-                                            <button type="submit" class="btn">proceed to checkout</button>
+                                            <button type="submit" id="pay-button" class="btn">proceed to checkout</button>
                                         </div>
                                     </div>
                                 </div>
@@ -169,6 +177,8 @@
                         </div>
                     </div>
                 </form>
+                form
+            </div>
         </div>
     </section>
     <!--/ End Checkout -->
@@ -182,7 +192,7 @@
                     <div class="single-service">
                         <i class="ti-rocket"></i>
                         <h4>Free shiping</h4>
-                        <p>Orders over $100</p>
+                        <p>Orders over Rp.100</p>
                     </div>
                     <!-- End Single Service -->
                 </div>
@@ -282,6 +292,7 @@
 			document.getElementById(box).style.display=vis;
 		}
 	</script>
+
 	<script>
 		$(document).ready(function(){
 			$('.shipping select[name=shipping]').change(function(){
@@ -295,5 +306,27 @@
 		});
 
 	</script>
+
+    <script type="text/javascript">
+    
+        document.getElementById('pay-button').onclick = function(){
+          // SnapToken acquired from previous step
+          snap.pay('({$order->snap_token})', {
+            
+            // Optional
+            onSuccess: function(result){
+              /* You may add your own js here, this is just example */ document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+            },
+            // Optional
+            onPending: function(result){
+              /* You may add your own js here, this is just example */ document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+            },
+            // Optional
+            onError: function(result){
+              /* You may add your own js here, this is just example */ document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+            }
+          });
+        };
+      </script>
 
 @endpush

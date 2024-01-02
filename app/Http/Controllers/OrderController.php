@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Cart;
 use App\Models\Order;
+use App\Models\Product;
 use App\Models\Shipping;
 use App\User;
 use PDF;
@@ -25,6 +26,7 @@ class OrderController extends Controller
         $orders=Order::orderBy('id','DESC')->paginate(10);
         return view('backend.order.index')->with('orders',$orders);
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -59,6 +61,7 @@ class OrderController extends Controller
             request()->session()->flash('error','Cart is Empty !');
             return back();
         }
+        
         // $cart=Cart::get();
         // // return $cart;
         // $cart_index='ORD-'.strtoupper(uniqid());
@@ -125,30 +128,63 @@ class OrderController extends Controller
             $order_data['payment_method']='cod';
             $order_data['payment_status']='Unpaid';
         }
-        $order->fill($order_data);
-        $status=$order->save();
-        if($order)
-        // dd($order->id);
-        $users=User::where('role','admin')->first();
-        $details=[
-            'title'=>'New order created',
-            'actionURL'=>route('order.show',$order->id),
-            'fas'=>'fa-file-alt'
-        ];
-        Notification::send($users, new StatusNotification($details));
-        if(request('payment_method')=='paypal'){
-            return redirect()->route('payment')->with(['id'=>$order->id]);
-        }
-        else{
-            session()->forget('cart');
-            session()->forget('coupon');
-        }
-        Cart::where('user_id', auth()->user()->id)->where('order_id', null)->update(['order_id' => $order->id]);
+        \Midtrans\Config::$serverKey = config('midtrans.serverKey');
+        // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+        \Midtrans\Config::$isProduction = false;
+        // Set sanitization on (default)
+        \Midtrans\Config::$isSanitized = true;
+        // Set 3DS transaction for credit card to true
+        \Midtrans\Config::$is3ds = true;
 
-        // dd($users);        
-        request()->session()->flash('success','Your product successfully placed in order');
-        return redirect()->route('home');
+        $params = array(
+            'transaction_details' => array(
+                'order_id' =>$order_data['order_number'] ,
+                'gross_amount' => $order_data['total_amount'],
+            ),
+            'customer_details' => array(
+                'first_name' => $order_data['first_name'] ,
+                'last_name' => $order_data['last_name'],
+                'email' => $order_data['email'],
+                'phone' => $order_data['phone'],
+            )
+        );
+        
+        $snapToken = \Midtrans\Snap::getSnapToken($params); 
+
+        $order_data['snap_token']=$snapToken;
+        
+        $order->fill($order_data);
+        $status = $order->save();
+    
+        if ($order) {
+            $users = User::where('role', 'admin')->first();
+            $details = [
+                'title' => 'New order created',
+                'actionURL' => route('order.show', $order->id),
+                'fas' => 'fa-file-alt'
+            ];
+            Notification::send($users, new StatusNotification($details));
+    
+            if (request('payment_method') == 'paypal') {
+                // Redirect to order.transaksi with order ID as a parameter
+                return redirect()->route('order.transaksi', ['id' => $order->id])->with(['id' => $order->id]);
+            } else {
+                session()->forget('cart');
+                session()->forget('coupon');
+            }
+    
+            Cart::where('user_id', auth()->user()->id)->where('order_id', null)->update(['order_id' => $order->id]);
+    
+            request()->session()->flash('success', 'Your product successfully placed in order');
+            return redirect()->route('home');
+        } else {
+            // Handle the case where the order was not saved successfully
+            request()->session()->flash('error', 'Failed to create the order');
+            return back();
+        }
     }
+    
+
 
     /**
      * Display the specified resource.
@@ -162,6 +198,13 @@ class OrderController extends Controller
         // return $order;
         return view('backend.order.show')->with('order',$order);
     }
+    
+    public function pay($id)
+    {
+        $order=Order::find($id);
+        return view('frontend.pages.transaksi')->with('order',$order);
+    }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -174,6 +217,7 @@ class OrderController extends Controller
         $order=Order::find($id);
         return view('backend.order.edit')->with('order',$order);
     }
+    
 
     /**
      * Update the specified resource in storage.
@@ -277,6 +321,7 @@ class OrderController extends Controller
         $pdf=PDF::loadview('backend.order.pdf',compact('order'));
         return $pdf->download($file_name);
     }
+    
     // Income chart
     public function incomeChart(Request $request){
         $year=\Carbon\Carbon::now()->year;
@@ -303,4 +348,5 @@ class OrderController extends Controller
         }
         return $data;
     }
+
 }

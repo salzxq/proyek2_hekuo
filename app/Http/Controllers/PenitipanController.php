@@ -99,25 +99,25 @@ class PenitipanController extends Controller
         $shipping=Shipping::where('id',$penitipan_data['shipping_id'])->pluck('price');
         $board=HargaPenitipan::where('id',$penitipan_data['board_id'])->pluck('price');
         // return session('coupon')['value'];
-        $penitipan_data['sub_total']=Helper::totalCartPrice();
+        $penitipan_data['sub_total']=Helper::totalCartPriceBoard();
         $penitipan_data['quantity']=Helper::cartCount();
         if(session('coupon')){
             $penitipan_data['coupon']=session('coupon')['value'];
         }
         if($request->shipping && $request->board){
             if(session('coupon')){
-                $penitipan_data['total_amount']=Helper::totalCartPrice()+$shipping[0]+$board[0]-session('coupon')['value'];
+                $penitipan_data['total_amount']=Helper::totalCartPriceBoard()+$shipping[0]+$board[0]-session('coupon')['value'];
             }
             else{
-                $penitipan_data['total_amount']=Helper::totalCartPrice()+$shipping[0]+$board[0];
+                $penitipan_data['total_amount']=Helper::totalCartPriceBoard()+$shipping[0]+$board[0];
             }
         }
         else{
             if(session('coupon')){
-                $penitipan_data['total_amount']=Helper::totalCartPrice()-session('coupon')['value'];
+                $penitipan_data['total_amount']=Helper::totalCartPriceBoard()-session('coupon')['value'];
             }
             else{
-                $penitipan_data['total_amount']=Helper::totalCartPrice();
+                $penitipan_data['total_amount']=Helper::totalCartPriceBoard();
             }
         }
         // return $penitipan_data['total_amount'];

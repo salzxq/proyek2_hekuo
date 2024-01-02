@@ -3,7 +3,7 @@
 @section('main-content')
 
 <div class="card">
-    <h5 class="card-header">Add Harga Penitipan</h5>
+    <h5 class="card-header">Tambah Harga Penitipan</h5>
     <div class="card-body">
       <form method="post" action="{{route('hargapenitipan.store')}}">
         {{csrf_field()}}
@@ -20,8 +20,8 @@
         </div>
 
         <div class="form-group">
-          <label for="price" class="col-form-label">Price <span class="text-danger">*</span></label>
-        <input id="price" type="number" name="price" placeholder="Enter price"  value="{{old('price')}}" class="form-control">
+          <label for="price" class="col-form-label">Harga <span class="text-danger">*</span></label>
+        <input id="price" type="number" name="price" placeholder="Masukan Harga"  value="{{old('price')}}" class="form-control">
         @error('price')
         <span class="text-danger">{{$message}}</span>
         @enderror

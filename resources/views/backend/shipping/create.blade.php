@@ -3,7 +3,7 @@
 @section('main-content')
 
 <div class="card">
-    <h5 class="card-header">Add Shipping</h5>
+    <h5 class="card-header">Tambah Pengiriman</h5>
     <div class="card-body">
       <form method="post" action="{{route('shipping.store')}}">
         {{csrf_field()}}
