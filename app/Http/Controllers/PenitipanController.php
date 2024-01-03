@@ -125,8 +125,8 @@ class PenitipanController extends Controller
        
         // return $penitipan_data['total_amount'];
         $penitipan_data['status']="new";
-        if(request('payment_method')=='paypal'){
-            $penitipan_data['payment_method']='paypal';
+        if(request('payment_method')=='bayar'){
+            $penitipan_data['payment_method']='bayar';
             $penitipan_data['payment_status']='paid';
         }
         else{
@@ -169,7 +169,7 @@ class PenitipanController extends Controller
             'fas'=>'fa-file-alt'
         ];
         Notification::send($users, new StatusNotification($details));
-        if(request('payment_method')=='paypal'){
+        if(request('payment_method')=='bayar'){
             return redirect()->route('penitipan.transaksi', ['id' => $penitipan->id])->with(['id' => $penitipan->id]);
         }
         else{

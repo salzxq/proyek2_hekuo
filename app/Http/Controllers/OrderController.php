@@ -120,8 +120,8 @@ class OrderController extends Controller
         }
         // return $order_data['total_amount'];
         $order_data['status']="new";
-        if(request('payment_method')=='paypal'){
-            $order_data['payment_method']='paypal';
+        if(request('payment_method')=='bayar'){
+            $order_data['payment_method']='bayar';
             $order_data['payment_status']='paid';
         }
         else{
@@ -165,7 +165,7 @@ class OrderController extends Controller
             ];
             Notification::send($users, new StatusNotification($details));
     
-            if (request('payment_method') == 'paypal') {
+            if (request('payment_method') == 'bayar') {
                 // Redirect to order.transaksi with order ID as a parameter
                 return redirect()->route('order.transaksi', ['id' => $order->id])->with(['id' => $order->id]);
             } else {
