@@ -105,12 +105,12 @@ class PenitipanController extends Controller
         if(session('coupon')){
             $penitipan_data['coupon']=session('coupon')['value'];
         }
-        if($request->board){
+        if($request->shipping){
             if(session('coupon')){
-                $penitipan_data['total_amount']=Helper::totalCartPriceBoard()+$board[0]-session('coupon')['value'];
+                $penitipan_data['total_amount']=Helper::totalCartPriceBoard()+$shipping[0]-session('coupon')['value'];
             }
             else{
-                $penitipan_data['total_amount']=Helper::totalCartPriceBoard()+$board[0];
+                $penitipan_data['total_amount']=Helper::totalCartPriceBoard()+$shipping[0];
             }
         }
        
