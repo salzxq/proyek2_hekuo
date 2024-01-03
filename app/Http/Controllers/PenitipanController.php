@@ -122,7 +122,7 @@ class PenitipanController extends Controller
                 $penitipan_data['total_amount']=Helper::totalCartPriceBoard();
             }
         }
-        dd($penitipan_data['total_amount']);
+       
         // return $penitipan_data['total_amount'];
         $penitipan_data['status']="new";
         if(request('payment_method')=='paypal'){

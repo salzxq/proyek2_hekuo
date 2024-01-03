@@ -29,8 +29,8 @@
             <td>{{$penitipan->nama_depan}} {{$penitipan->nama_belakang}}</td>
             <td>{{$penitipan->email}}</td>
             <td>{{$penitipan->quantity}}</td>
-            <td>${{$penitipan->shipping->price}}</td>
-            <td>${{number_format($penitipan->total_amount,2)}}</td>
+            <td>Rp.{{$penitipan->shipping->price}}</td>
+            <td>Rp.{{number_format($penitipan->total_amount,2)}}</td>
             <td>
                 @if($penitipan->status=='new')
                   <span class="badge badge-primary">{{$penitipan->status}}</span>
@@ -80,19 +80,19 @@
                     </tr>
                     <tr>
                         <td>Shipping Charge</td>
-                        <td> : $ {{$penitipan->shipping->price}}</td>
+                        <td> : Rp. {{$penitipan->shipping->price}}</td>
                     </tr>
                     <tr>
                       <td>Coupon</td>
-                      <td> : $ {{number_format($penitipan->coupon,2)}}</td>
+                      <td> : Rp. {{number_format($penitipan->coupon,2)}}</td>
                     </tr>
                     <tr>
                         <td>Total Amount</td>
-                        <td> : $ {{number_format($penitipan->total_amount,2)}}</td>
+                        <td> : Rp. {{number_format($penitipan->total_amount,2)}}</td>
                     </tr>
                     <tr>
                         <td>Payment Method</td>
-                        <td> : @if($penitipan->payment_method=='cod') Cash on Delivery @else Paypal @endif</td>
+                        <td> : @if($penitipan->payment_method=='cod') Cash on Delivery @else Bayar @endif</td>
                     </tr>
                     <tr>
                         <td>Payment Status</td>

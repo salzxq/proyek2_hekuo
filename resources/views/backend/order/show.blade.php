@@ -1,247 +1,156 @@
-@extends('../../frontend.layouts.master')
+@extends('backend.layouts.master')
 
-@section('title','Checkout page')
+@section('title','Order Detail')
 
 @section('main-content')
+<div class="card">
+<h5 class="card-header">Order       <a href="{{route('order.pdf',$order->id)}}" class=" btn btn-sm btn-primary shadow-sm float-right"><i class="fas fa-download fa-sm text-white-50"></i> Generate PDF</a>
+  </h5>
+  <div class="card-body">
+    @if($order)
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+            <th>S.N.</th>
+            <th>Order No.</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Quantity</th>
+            <th>Charge</th>
+            <th>Total Amount</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+            <td>{{$order->id}}</td>
+            <td>{{$order->order_number}}</td>
+            <td>{{$order->first_name}} {{$order->last_name}}</td>
+            <td>{{$order->email}}</td>
+            <td>{{$order->quantity}}</td>
+            <td>Rp.{{$order->shipping->price}}</td>
+            <td>Rp.{{number_format($order->total_amount,2)}}</td>
+            <td>
+                @if($order->status=='new')
+                  <span class="badge badge-primary">{{$order->status}}</span>
+                @elseif($order->status=='process')
+                  <span class="badge badge-warning">{{$order->status}}</span>
+                @elseif($order->status=='delivered')
+                  <span class="badge badge-success">{{$order->status}}</span>
+                @else
+                  <span class="badge badge-danger">{{$order->status}}</span>
+                @endif
+            </td>
+            <td>
+                <a href="{{route('order.edit',$order->id)}}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="edit" data-placement="bottom"><i class="fas fa-edit"></i></a>
+                <form method="POST" action="{{route('order.destroy',[$order->id])}}">
+                  @csrf
+                  @method('delete')
+                      <button class="btn btn-danger btn-sm dltBtn" data-id={{$order->id}} style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fas fa-trash-alt"></i></button>
+                </form>
+            </td>
 
-<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key={(env('MINDTRANS_CLIENT_KEY'))}></script>
-@if($order)
-    <!-- Breadcrumbs -->
-    <div class="breadcrumbs">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="bread-inner">
-                        <ul class="bread-list">
-                            <li><a href="{{route('home')}}">Home<i class="ti-arrow-right"></i></a></li>
-                            <li class="active"><a href="javascript:void(0)">Bayar</a></li>
-                        </ul>
-                    </div>
-                </div>
+        </tr>
+      </tbody>
+    </table>
+
+    <section class="confirmation_part section_padding">
+      <div class="order_boxes">
+        <div class="row">
+          <div class="col-lg-6 col-lx-4">
+            <div class="order-info">
+              <h4 class="text-center pb-4">ORDER INFORMATION</h4>
+              <table class="table">
+                    <tr class="">
+                        <td>Order Number</td>
+                        <td> : {{$order->order_number}}</td>
+                    </tr>
+                    <tr>
+                        <td>Order Date</td>
+                        <td> : {{$order->created_at->format('D d M, Y')}} at {{$order->created_at->format('g : i a')}} </td>
+                    </tr>
+                    <tr>
+                        <td>Quantity</td>
+                        <td> : {{$order->quantity}}</td>
+                    </tr>
+                    <tr>
+                        <td>Order Status</td>
+                        <td> : {{$order->status}}</td>
+                    </tr>
+                    <tr>
+                        <td>Shipping Charge</td>
+                        <td> : Rp. {{$order->shipping->price}}</td>
+                    </tr>
+                    <tr>
+                      <td>Coupon</td>
+                      <td> : Rp. {{number_format($order->coupon,2)}}</td>
+                    </tr>
+                    <tr>
+                        <td>Total Amount</td>
+                        <td> : Rp. {{number_format($order->total_amount,2)}}</td>
+                    </tr>
+                    <tr>
+                        <td>Payment Method</td>
+                        <td> : @if($order->payment_method=='cod') Cash on Delivery @else Bayar @endif</td>
+                    </tr>
+                    <tr>
+                        <td>Payment Status</td>
+                        <td> : {{$order->payment_status}}</td>
+                    </tr>
+              </table>
             </div>
-        </div>
-    </div>
-    <!-- End Breadcrumbs -->
-            
-    <!-- Start Checkout -->
-    <section class="shop checkout section">
-        <div class="container">
-            <div id="snap-container">
-                                <!--/ End Form -->
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-12">
-                            <div class="order-details">
-                                <!-- Order Widget -->
-                                <div class="single-widget">
-                                    <h2>CART  TOTALS</h2>
-                                    <div class="content">
-                                        <ul>
-										    <li class="order_subtotal" data-price="{{Helper::totalCartPrice()}}">Cart Subtotal<span>Rp.{{number_format(Helper::totalCartPrice(),2)}}</span></li>
-                                            <li class="shipping">
-                                                Shipping Cost
-                                                @if(count(Helper::shipping())>0 && Helper::cartCount()>0)
-                                                    <select name="shipping" class="nice-select">
-                                                        <option value="">Select your address</option>
-                                                        @foreach(Helper::shipping() as $shipping)
-                                                        <option value="{{$shipping->id}}" class="shippingOption" data-price="{{$shipping->price}}">{{$shipping->type}}: Rp.{{$shipping->price}}</option>
-                                                        @endforeach
-                                                    </select>
-                                                @else 
-                                                    <span>Free</span>
-                                                @endif
-                                            </li>
-                                            
-                                            @if(session('coupon'))
-                                            <li class="coupon_price" data-price="{{session('coupon')['value']}}">You Save<span>Rp.{{number_format(session('coupon')['value'],2)}}</span></li>
-                                            @endif
-                                            @php
-                                                $total_amount=Helper::totalCartPrice();
-                                                if(session('coupon')){
-                                                    $total_amount=$total_amount-session('coupon')['value'];
-                                                }
-                                            @endphp
-                                            @if(session('coupon'))
-                                                <li class="last"  id="order_total_price">Total<span>Rp.{{number_format($total_amount,2)}}</span></li>
-                                            @else
-                                                <li class="last"  id="order_total_price">Total<span>Rp.{{number_format($total_amount,2)}}</span></li>
-                                            @endif
-                                        </ul>
-                                    </div>
-                                </div>
-                                <!--/ End Order Widget -->
-                                <!-- Order Widget -->
+          </div>
 
-                                <!--/ End Order Widget -->
-                                <!-- Payment Method Widget -->
-                                {{-- <div class="single-widget payement">
-                                    <div class="content">
-                                        <img src="{{('backend/img/payment-method.png')}}" alt="#">
-                                    </div>
-                                </div> --}}
-                                <!--/ End Payment Method Widget -->
-                                <!-- Button Widget -->
-                                <div class="single-widget get-button">
-                                    <div class="content">
-                                        <div class="button">
-                                            <button  id="pay-button" class="btn">proceed to payment</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--/ End Button Widget -->
-                            </div>
-                        </div>
-                    </div>
-
+          <div class="col-lg-6 col-lx-4">
+            <div class="shipping-info">
+              <h4 class="text-center pb-4">SHIPPING INFORMATION</h4>
+              <table class="table">
+                    <tr class="">
+                        <td>Full Name</td>
+                        <td> : {{$order->first_name}} {{$order->last_name}}</td>
+                    </tr>
+                    <tr>
+                        <td>Email</td>
+                        <td> : {{$order->email}}</td>
+                    </tr>
+                    <tr>
+                        <td>Phone No.</td>
+                        <td> : {{$order->phone}}</td>
+                    </tr>
+                    <tr>
+                        <td>Address</td>
+                        <td> : {{$order->address1}}, {{$order->address2}}</td>
+                    </tr>
+                    <tr>
+                        <td>Country</td>
+                        <td> : {{$order->country}}</td>
+                    </tr>
+                    <tr>
+                        <td>Post Code</td>
+                        <td> : {{$order->post_code}}</td>
+                    </tr>
+              </table>
             </div>
+          </div>
         </div>
+      </div>
     </section>
-    <!--/ End Checkout -->
-    
-    <!-- Start Shop Services Area  -->
-    <section class="shop-services section home">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-6 col-12">
-                    <!-- Start Single Service -->
-                    <div class="single-service">
-                        <i class="ti-rocket"></i>
-                        <h4>Free shiping</h4>
-                        <p>Orders over Rp.100</p>
-                    </div>
-                    <!-- End Single Service -->
-                </div>
-                <div class="col-lg-3 col-md-6 col-12">
-                    <!-- Start Single Service -->
-                    <div class="single-service">
-                        <i class="ti-reload"></i>
-                        <h4>Free Return</h4>
-                        <p>Within 30 days returns</p>
-                    </div>
-                    <!-- End Single Service -->
-                </div>
-                <div class="col-lg-3 col-md-6 col-12">
-                    <!-- Start Single Service -->
-                    <div class="single-service">
-                        <i class="ti-lock"></i>
-                        <h4>Sucure Payment</h4>
-                        <p>100% secure payment</p>
-                    </div>
-                    <!-- End Single Service -->
-                </div>
-                <div class="col-lg-3 col-md-6 col-12">
-                    <!-- Start Single Service -->
-                    <div class="single-service">
-                        <i class="ti-tag"></i>
-                        <h4>Best Peice</h4>
-                        <p>Guaranteed price</p>
-                    </div>
-                    <!-- End Single Service -->
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- End Shop Services -->
+    @endif
+
+  </div>
+</div>
 @endsection
+
 @push('styles')
-	<style>
-		li.shipping{
-			display: inline-flex;
-			width: 100%;
-			font-size: 14px;
-		}
-		li.shipping .input-group-icon {
-			width: 100%;
-			margin-left: 10px;
-		}
-		.input-group-icon .icon {
-			position: absolute;
-			left: 20px;
-			top: 0;
-			line-height: 40px;
-			z-index: 3;
-		}
-		.form-select {
-			height: 30px;
-			width: 100%;
-		}
-		.form-select .nice-select {
-			border: none;
-			border-radius: 0px;
-			height: 40px;
-			background: #f6f6f6 !important;
-			padding-left: 45px;
-			padding-right: 40px;
-			width: 100%;
-		}
-		.list li{
-			margin-bottom:0 !important;
-		}
-		.list li:hover{
-			background:#F7941D !important;
-			color:white !important;
-		}
-		.form-select .nice-select::after {
-			top: 14px;
-		}
-	</style>
-@endpush
-@push('scripts')
-	<script src="{{asset('frontend/js/nice-select/js/jquery.nice-select.min.js')}}"></script>
-	<script src="{{ asset('frontend/js/select2/js/select2.min.js') }}"></script>
-	<script>
-		$(document).ready(function() { $("select.select2").select2(); });
-  		$('select.nice-select').niceSelect();
-	</script>
-	<script>
-		function showMe(box){
-			var checkbox=document.getElementById('shipping').style.display;
-			// alert(checkbox);
-			var vis= 'none';
-			if(checkbox=="none"){
-				vis='block';
-			}
-			if(checkbox=="block"){
-				vis="none";
-			}
-			document.getElementById(box).style.display=vis;
-		}
-	</script>
+<style>
+    .order-info,.shipping-info{
+        background:#ECECEC;
+        padding:20px;
+    }
+    .order-info h4,.shipping-info h4{
+        text-decoration: underline;
+    }
 
-	<script>
-		$(document).ready(function(){
-			$('.shipping select[name=shipping]').change(function(){
-				let cost = parseFloat( $(this).find('option:selected').data('price') ) || 0;
-				let subtotal = parseFloat( $('.order_subtotal').data('price') ); 
-				let coupon = parseFloat( $('.coupon_price').data('price') ) || 0; 
-				// alert(coupon);
-				$('#order_total_price span').text('$'+(subtotal + cost-coupon).toFixed(2));
-			});
-
-		});
-
-	</script>
-
-    <script type="text/javascript">
-    
-        document.getElementById('pay-button').onclick = function(){
-          // SnapToken acquired from previous step
-          snap.pay('{{$order->snap_token}}', {
-            
-            // Optional
-            onSuccess: function(result){
-              /* You may add your own js here, this is just example */ document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
-            },
-            // Optional
-            onPending: function(result){
-              /* You may add your own js here, this is just example */ document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
-            },
-            // Optional
-            onError: function(result){
-              /* You may add your own js here, this is just example */ document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
-            }
-          });
-        };
-      </script>
-@endif
+</style>
 @endpush
