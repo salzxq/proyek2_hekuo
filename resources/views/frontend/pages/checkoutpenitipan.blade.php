@@ -3,6 +3,7 @@
 @section('title','Checkout Penitipan page')
 
 @section('main-content')
+<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key={(env('MINDTRANS_CLIENT_KEY'))}></script>
 
     <!-- Breadcrumbs -->
     <div class="breadcrumbs">
@@ -90,7 +91,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-6 col-md-6 col-12">
+                                    {{-- <div class="col-lg-6 col-md-6 col-12">
                                         <div class="form-group">
                                             <label>Catatan untuk Penitipan</label>
                                             <textarea class="form-control" id="description" name="description">{{old('description')}}</textarea>
@@ -98,7 +99,17 @@
                                                 <span class='text-danger'>{{$message}}</span>
                                             @enderror
                                         </div>
+                                    </div> --}}
+                                    <div class="col-lg-6 col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label for="description">Catatan untuk Penitipan</label>
+                                            <textarea class="form-control" id="description" name="description" rows="4" placeholder="Tulis catatan Anda di sini">{{ old('description') }}</textarea>
+                                            @error('description')
+                                                <span class='text-danger'>{{ $message }}</span>
+                                            @enderror
+                                        </div>
                                     </div>
+                                    
                                     
                                     
                                 </div>
@@ -132,7 +143,7 @@
                                                 <div class="form-group">                                                                                              
                                                     <input type="number" class="nice-select" name="angka" placeholder="Berapa jangka waktu" required value="{{old('angka')}}">
                                                 </div>
-                                                    <select name="hargapenitipan" class="nice-select">
+                                                    <select name="hargapenitipan" class="nice-select" required>
                                                         <option value="">pilih harian,bulanan</option>
                                                         @foreach(Helper::hargapenitipan() as $hargapenitipan)
                                                         <option value="{{$hargapenitipan->id}}" class="hargapenitipanOption" data-price="{{$hargapenitipan->price}}">{{$hargapenitipan->waktu}}: Rp.{{$hargapenitipan->price}}</option>
@@ -169,7 +180,7 @@
                                             {{-- <label class="checkbox-inline" for="1"><input name="updates" id="1" type="checkbox"> Check Payments</label> --}}
                                             <form-group>
                                                 <input name="payment_method"  type="radio" value="cod"> <label> Cash On Delivery</label><br>
-                                                {{-- <input name="payment_method"  type="radio" value="paypal"> <label> Dana</label>  --}}
+                                                <input name="payment_method"  type="radio" value="paypal"> <label> Bayar</label> 
                                             </form-group>
                                             
                                         </div>
@@ -344,5 +355,26 @@
 
 
 	</script>
+    <script type="text/javascript">
+    
+        document.getElementById('pay-button').onclick = function(){
+          // SnapToken acquired from previous step
+          snap.pay('({$order->snap_token})', {
+            
+            // Optional
+            onSuccess: function(result){
+              /* You may add your own js here, this is just example */ document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+            },
+            // Optional
+            onPending: function(result){
+              /* You may add your own js here, this is just example */ document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+            },
+            // Optional
+            onError: function(result){
+              /* You may add your own js here, this is just example */ document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+            }
+          });
+        };
+      </script>
 
 @endpush

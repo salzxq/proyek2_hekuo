@@ -101,17 +101,19 @@ class PenitipanController extends Controller
         // return session('coupon')['value'];
         $penitipan_data['sub_total']=Helper::totalCartPriceBoard();
         $penitipan_data['quantity']=Helper::cartCount();
+        
         if(session('coupon')){
             $penitipan_data['coupon']=session('coupon')['value'];
         }
-        if($request->shipping && $request->board){
+        if($request->board){
             if(session('coupon')){
-                $penitipan_data['total_amount']=Helper::totalCartPriceBoard()+$shipping[0]+$board[0]-session('coupon')['value'];
+                $penitipan_data['total_amount']=Helper::totalCartPriceBoard()+$board[0]-session('coupon')['value'];
             }
             else{
-                $penitipan_data['total_amount']=Helper::totalCartPriceBoard()+$shipping[0]+$board[0];
+                $penitipan_data['total_amount']=Helper::totalCartPriceBoard()+$board[0];
             }
         }
+       
         else{
             if(session('coupon')){
                 $penitipan_data['total_amount']=Helper::totalCartPriceBoard()-session('coupon')['value'];
@@ -120,6 +122,7 @@ class PenitipanController extends Controller
                 $penitipan_data['total_amount']=Helper::totalCartPriceBoard();
             }
         }
+        dd($penitipan_data['total_amount']);
         // return $penitipan_data['total_amount'];
         $penitipan_data['status']="new";
         if(request('payment_method')=='paypal'){
@@ -130,6 +133,31 @@ class PenitipanController extends Controller
             $penitipan_data['payment_method']='cod';
             $penitipan_data['payment_status']='Unpaid';
         }
+        \Midtrans\Config::$serverKey = config('midtrans.serverKey');
+        // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+        \Midtrans\Config::$isProduction = false;
+        // Set sanitization on (default)
+        \Midtrans\Config::$isSanitized = true;
+        // Set 3DS transaction for credit card to true
+        \Midtrans\Config::$is3ds = true;
+
+        $params = array(
+            'transaction_details' => array(
+                'order_id' =>$penitipan_data['penitipan_number'] ,
+                'gross_amount' => $penitipan_data['total_amount'],
+            ),
+            'customer_details' => array(
+                'first_name' => $penitipan_data['nama_depan'] ,
+                'last_name' => $penitipan_data['nama_belakang'],
+                'email' => $penitipan_data['email'],
+                'phone' => $penitipan_data['phone'],
+            )
+        );
+        
+        $snapToken = \Midtrans\Snap::getSnapToken($params); 
+
+        $penitipan_data['snap_token']=$snapToken;
+
         $penitipan->fill($penitipan_data);
         $status=$penitipan->save();
         if($penitipan)
@@ -142,7 +170,7 @@ class PenitipanController extends Controller
         ];
         Notification::send($users, new StatusNotification($details));
         if(request('payment_method')=='paypal'){
-            return redirect()->route('payment')->with(['id'=>$penitipan->id]);
+            return redirect()->route('penitipan.transaksi', ['id' => $penitipan->id])->with(['id' => $penitipan->id]);
         }
         else{
             session()->forget('cart');
@@ -166,6 +194,11 @@ class PenitipanController extends Controller
         $penitipan=Penitipan::find($id);
         // return $penitipan;
         return view('backend.penitipan.show')->with('penitipan',$penitipan);
+    }
+    public function pay($id)
+    {
+        $penitipan=Penitipan::find($id);
+        return view('frontend.pages.transaksii')->with('penitipan',$penitipan);
     }
 
     /**

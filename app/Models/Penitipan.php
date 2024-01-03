@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Penitipan extends Model
 {
-    protected $fillable=['user_id','penitipan_number','sub_total','quantity','delivery_charge','board_charge','status','total_amount','nama_depan','nama_belakang','post_code','address1','phone','email','payment_method','payment_status','shipping_id','coupon','description','angka'];
+    protected $fillable=['user_id','penitipan_number','sub_total','quantity','delivery_charge','board_charge','status','total_amount','nama_depan','nama_belakang','post_code','address1','phone','email','payment_method','payment_status','shipping_id','board_id','coupon','description','angka','snap_token'];
 
     public function cart_info(){
         return $this->hasMany('App\Models\Cart','penitipan_id','id');

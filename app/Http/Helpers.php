@@ -198,7 +198,7 @@ class Helper{
     }
 
     public static function shipping(){
-        return hargapenitipan::orderBy('id','DESC')->get();
+        return shipping::orderBy('id','DESC')->get();
     }
 }
 

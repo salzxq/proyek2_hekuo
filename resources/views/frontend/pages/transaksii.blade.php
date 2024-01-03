@@ -50,6 +50,22 @@
                                                     <span>Free</span>
                                                 @endif
                                             </li>
+
+                                            <li class="penitipan">
+                                                Harga Penitipan
+                                                @if(count(Helper::hargapenitipan())>0 && Helper::cartCount()>0)
+                                                <div class="form-group">                                                                                              
+                                                    <input type="number" class="nice-select" name="angka" placeholder="Berapa jangka waktu" required value="{{$penitipan->angka}}">
+                                                </div>
+                                                    <select name="hargapenitipan" class="nice-select" disabled>
+                                                        @foreach(Helper::hargapenitipan() as $hargapenitipan)
+                                                        <option value="{{$hargapenitipan->id}}" class="hargapenitipanOption" data-price="{{$hargapenitipan->price}}">{{$hargapenitipan->waktu}}: Rp.{{$hargapenitipan->price}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                @else 
+                                                    <span>Free</span>
+                                                @endif
+                                            </li>
                                             
                                             @if(session('coupon'))
                                             <li class="coupon_price" data-price="{{session('coupon')['value']}}">You Save<span>Rp.{{number_format(session('coupon')['value'],2)}}</span></li>
@@ -61,9 +77,9 @@
                                                 }
                                             @endphp
                                             @if(session('coupon'))
-                                                <li class="last"  id="order_total_price">Total<span>Rp.{{$order->total_amount}}</span></li>
+                                                <li class="last"  id="order_total_price">Total<span>Rp.{{$penitipan->total_amount}}</span></li>
                                             @else
-                                                <li class="last"  id="order_total_price">Total<span>Rp.{{$order->total_amount}}</span></li>
+                                                <li class="last"  id="order_total_price">Total<span>Rp.{{$penitipan->total_amount}}</span></li>
                                             @endif
                                         </ul>
                                     </div>
@@ -225,7 +241,7 @@
     
         document.getElementById('pay-button').onclick = function(){
           // SnapToken acquired from previous step
-          snap.pay('{{$order->snap_token}}', {
+          snap.pay('{{$penitipan->snap_token}}', {
             
             // Optional
             onSuccess: function(result){

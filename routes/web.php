@@ -89,6 +89,7 @@
    
     Route::get('order/pdf/{id}', [OrderController::class, 'pdf'])->name('order.pdf');
     Route::get('/transaksi/{id}', [OrderController::class, 'pay'])->name('order.transaksi');
+     Route::get('/transaksii/{id}', [PenitipanController::class, 'pay'])->name('penitipan.transaksi');
     Route::get('/income', [OrderController::class, 'incomeChart'])->name('product.order.income');
     Route::post('cart/penitipan', [PenitipanController::class, 'store'])->name('cart.penitipan');
     Route::get('penitipan/pdf/{id}', [PenitipanController::class, 'pdf'])->name('penitipan.pdf');

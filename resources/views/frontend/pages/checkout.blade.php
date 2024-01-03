@@ -151,11 +151,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="single-widget payement">
-                                    <div class="content">
-                                        <button id="pay-button" class="btn">Proceed to Payment</button>
-                                    </div>
-                                </div>
+                               
                                 <!--/ End Order Widget -->
                                 <!-- Payment Method Widget -->
                                 {{-- <div class="single-widget payement">
@@ -168,7 +164,7 @@
                                 <div class="single-widget get-button">
                                     <div class="content">
                                         <div class="button">
-                                            <button type="submit" id="pay-button" class="btn">proceed to checkout</button>
+                                            <button type="submit" class="btn">proceed to checkout</button>
                                         </div>
                                     </div>
                                 </div>
@@ -307,26 +303,6 @@
 
 	</script>
 
-    <script type="text/javascript">
     
-        document.getElementById('pay-button').onclick = function(){
-          // SnapToken acquired from previous step
-          snap.pay('({$order->snap_token})', {
-            
-            // Optional
-            onSuccess: function(result){
-              /* You may add your own js here, this is just example */ document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
-            },
-            // Optional
-            onPending: function(result){
-              /* You may add your own js here, this is just example */ document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
-            },
-            // Optional
-            onError: function(result){
-              /* You may add your own js here, this is just example */ document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
-            }
-          });
-        };
-      </script>
 
 @endpush
