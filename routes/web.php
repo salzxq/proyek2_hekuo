@@ -193,6 +193,10 @@
         Route::get('/order/show/{id}', "HomeController@orderShow")->name('user.order.show');
         // Route::get('/checkout/transaksi', "HomeController@orderPay")->name('order.transaksi');
         Route::delete('/order/delete/{id}', [HomeController::class, 'userOrderDelete'])->name('user.order.delete');
+        //penitipan
+        Route::get('/penitipan', 'HomeController@penitipanIndex')->name('user.penitipan.index');
+        Route::get('/penitipan/show/{id}', "HomeController@penitipanShow")->name('user.penitipan.show');
+        Route::delete('/penitipan/delete/{id}', [HomeController::class, 'userPenitipanDelete'])->name('user.penitipan.delete');
         // Product Review
         Route::get('/user-review', [HomeController::class, 'productReviewIndex'])->name('user.productreview.index');
         Route::delete('/user-review/delete/{id}', [HomeController::class, 'productReviewDelete'])->name('user.productreview.delete');

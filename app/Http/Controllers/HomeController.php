@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Models\Penitipan;
 use App\Models\Order;
 use App\Models\ProductReview;
 use App\Models\PostComment;
@@ -87,6 +88,41 @@ class HomeController extends Controller
         $order=Order::find($id);
         // return $order;
         return view('user.order.show')->with('order',$order);
+    }
+
+    //penitipan
+    public function penitipanIndex(){
+        $penitipans=Penitipan::orderBy('id','DESC')->where('user_id',auth()->user()->id)->paginate(10);
+        return view('user.penitipan.index')->with('penitipans',$penitipans);
+    }
+    public function userPenitipanDelete($id)
+    {
+        $penitipan=Penitipan::find($id);
+        if($penitipan){
+           if($penitipan->status=="process" || $penitipan->status=='delivered' || $penitipan->status=='cancel'){
+                return redirect()->back()->with('error','You can not delete this order now');
+           }
+           else{
+                $status=$penitipan->delete();
+                if($status){
+                    request()->session()->flash('success','Order Successfully deleted');
+                }
+                else{
+                    request()->session()->flash('error','Penitipan can not deleted');
+                }
+                return redirect()->route('user.penitipan.index');
+           }
+        }
+        else{
+            request()->session()->flash('error','Penitipan can not found');
+            return redirect()->back();
+        }
+    }
+    public function penitipanShow($id)
+    {
+        $penitipan=Penitipan::find($id);
+        // return $order;
+        return view('user.penitipan.show')->with('penitipan',$penitipan);
     }
 
     // public function orderPay($id)
