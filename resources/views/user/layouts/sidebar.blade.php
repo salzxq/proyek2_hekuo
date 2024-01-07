@@ -23,13 +23,19 @@
 
         <!-- Heading -->
         <div class="sidebar-heading">
-            History order
+            History Pesanan
         </div>
     <!--Orders -->
     <li class="nav-item">
         <a class="nav-link" href="{{route('user.order.index')}}">
             <i class="fas fa-hammer fa-chart-area"></i>
-            <span>Order</span>
+            <span>Pesanan</span>
+        </a>
+    </li>
+     <li class="nav-item">
+        <a class="nav-link" href="{{route('user.penitipan.index')}}">
+            <i class="fas fa-hammer fa-chart-area"></i>
+            <span>Penitipan</span>
         </a>
     </li>
     <!-- Reviews -->

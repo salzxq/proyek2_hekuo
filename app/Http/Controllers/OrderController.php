@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Midtrans\Config;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\Product;
